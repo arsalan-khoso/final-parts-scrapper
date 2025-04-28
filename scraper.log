@@ -263,3 +263,62 @@ Stacktrace:
 2025-04-28 23:57:02,139 - INFO - 127.0.0.1 - - [28/Apr/2025 23:57:02] "GET / HTTP/1.1" 200 -
 2025-04-28 23:57:02,302 - INFO - 127.0.0.1 - - [28/Apr/2025 23:57:02] "GET / HTTP/1.1" 200 -
 2025-04-28 23:57:06,489 - INFO - 127.0.0.1 - - [28/Apr/2025 23:57:06] "GET /part-search/2000 HTTP/1.1" 200 -
+2025-04-28 23:57:14,636 - INFO - patching driver executable C:\Users\Arsalan-Dev\appdata\roaming\undetected_chromedriver\undetected_chromedriver.exe
+2025-04-28 23:57:17,667 - INFO - Chrome driver set up in 10.89s
+2025-04-28 23:57:17,668 - INFO - Searching part in IGC: 2000
+2025-04-28 23:57:17,669 - INFO - Searching part in IGC: 2000
+2025-04-28 23:57:17,670 - INFO - Logging in to Import Glass Corp
+2025-04-28 23:57:18,276 - INFO - Chrome driver set up in 0.61s
+2025-04-28 23:57:18,280 - INFO - Searching part in PGW: 2000
+2025-04-28 23:57:18,281 - INFO - Searching part in PWG: 2000
+2025-04-28 23:57:18,982 - INFO - Chrome driver set up in 0.70s
+2025-04-28 23:57:18,983 - INFO - Searching part in Pilkington: 2000
+2025-04-28 23:57:19,600 - INFO - Chrome driver set up in 0.61s
+2025-04-28 23:57:19,600 - INFO - Searching part in MyGrant: 2000
+2025-04-28 23:57:19,603 - INFO - Checking login status for MyGrant
+2025-04-28 23:57:19,603 - INFO - Performing full login to MyGrant
+2025-04-28 23:57:25,365 - INFO - Login successful - saved 3 cookies
+2025-04-28 23:57:27,163 - INFO - Login successful - saved 6 cookies
+2025-04-28 23:57:27,163 - INFO - Searching for part in MyGrant: 2000
+2025-04-28 23:57:29,044 - INFO - Search submitted, waiting for results...
+2025-04-28 23:57:31,073 - INFO - Found 4 matching part numbers
+2025-04-28 23:57:31,073 - INFO - Processing part detail for DW02000
+2025-04-28 23:57:31,074 - INFO - Using direct URL: https://importglasscorp.com/glass/DW02000/
+2025-04-28 23:57:32,252 - INFO - Logging form - trying to login
+2025-04-28 23:57:33,690 - INFO - Processing location: Doral, FL - (305) 477-9898
+2025-04-28 23:57:33,855 - INFO - Found 3 parts at Doral, FL - (305) 477-9898
+2025-04-28 23:57:33,864 - INFO - Processing location: Orlando, FL - (407) 859-6860
+2025-04-28 23:57:34,046 - INFO - Found 4 parts at Orlando, FL - (407) 859-6860
+2025-04-28 23:57:34,057 - INFO - Processing location: Tampa, FL - (813) 621-7500
+2025-04-28 23:57:34,191 - INFO - Found 3 parts at Tampa, FL - (813) 621-7500
+2025-04-28 23:57:34,200 - INFO - Processing location: Fort Lauderdale, FL - (954) 625-2463
+2025-04-28 23:57:34,338 - INFO - Found 3 parts at Fort Lauderdale, FL - (954) 625-2463
+2025-04-28 23:57:34,339 - INFO - Found 13 parts for 2000
+2025-04-28 23:57:34,339 - INFO - MyGrant scraper completed in 15.35s
+2025-04-28 23:57:34,348 - INFO - 127.0.0.1 - - [28/Apr/2025 23:57:34] "GET /products/2000 HTTP/1.1" 200 -
+2025-04-28 23:57:37,663 - INFO - Processing part detail for FW02000
+2025-04-28 23:57:37,663 - INFO - Using direct URL: https://importglasscorp.com/glass/FW02000/
+2025-04-28 23:57:39,049 - WARNING - Could not find Part Type radio button, continuing anyway
+2025-04-28 23:57:39,479 - INFO - username inserted
+2025-04-28 23:57:39,563 - INFO - password inserted
+2025-04-28 23:57:39,694 - INFO - checkbox clicked
+2025-04-28 23:57:39,823 - INFO - crendential submitted
+2025-04-28 23:57:45,093 - INFO - Found available part: FW02000, $237.97, Opa-Locka
+2025-04-28 23:57:45,094 - INFO - Processing part detail for FD02000
+2025-04-28 23:57:45,094 - INFO - Using direct URL: https://importglasscorp.com/glass/FD02000/
+2025-04-28 23:57:46,710 - INFO - Processing part detail for WKTF2000
+2025-04-28 23:57:46,710 - INFO - Using direct URL: https://importglasscorp.com/glass/WKTF2000/
+2025-04-28 23:57:48,069 - INFO - Final results count: 1
+2025-04-28 23:57:48,070 - INFO - IGC scraper completed in 41.29s
+2025-04-28 23:57:49,325 - INFO - successfully login
+2025-04-28 23:57:49,362 - INFO - Closed popup window
+2025-04-28 23:57:49,362 - INFO - Searching part in Pilkington: 2000
+2025-04-28 23:57:54,557 - INFO - Closed popup window
+2025-04-28 23:57:55,434 - INFO - Alternate search alert: Enter your Password, then click Login.
+2025-04-28 23:57:59,694 - INFO - Location: Miami, FL.
+2025-04-28 23:58:01,113 - INFO - Found 24 parts for 2000
+2025-04-28 23:58:01,114 - INFO - Pilkington scraper completed in 42.83s
+2025-04-28 23:58:03,462 - WARNING - No tables found on page, trying alternative extraction methods
+2025-04-28 23:58:08,502 - INFO - Could not find parts through elements, returning default parts
+2025-04-28 23:58:08,503 - INFO - PGW scraper completed in 50.83s
+2025-04-28 23:58:08,505 - INFO - All scrapers completed in 61.98s
