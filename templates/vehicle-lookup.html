@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Lookup</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --primary-dark: #2980b9;
+            --secondary-color: #2c3e50;
+            --background-color: #f4f6f8;
+            --text-color: #333;
+            --border-color: #ddd;
+            --hover-color: #ecf0f1;
+            --error-color: #e74c3c;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 20px;
+        }
+
+        h1 {
+            color: var(--secondary-color);
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 2.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+
+        .autocomplete-results {
+            position: absolute;
+            border: 1px solid var(--border-color);
+            background-color: #fff;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            width: 100%;
+            border-radius: 0 0 4px 4px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .autocomplete-results ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .autocomplete-results li {
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .autocomplete-results li:hover {
+            background-color: var(--hover-color);
+        }
+
+        .year, .body {
+            display: inline-block;
+            padding: 8px 16px;
+            margin: 5px;
+            background-color: var(--primary-color);
+            color: #fff;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .year:hover, .body:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        #parts-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        #parts-table th, #parts-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        #parts-table th {
+            background-color: var(--primary-color);
+            color: #fff;
+            font-weight: bold;
+        }
+
+        #parts-table tr:nth-child(even) {
+            background-color: var(--hover-color);
+        }
+
+        #parts-table tr:hover {
+            background-color: #e9ecef;
+        }
+
+        nav {
+            background-color: var(--secondary-color);
+            padding: 1rem;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .logout-link {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: var(--error-color);
+            color: var(--card-background);
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .logout-link:hover {
+            background-color: #d32f2f;
+        }
+
+        .logout-link::before {
+            content: "\1F511";
+            margin-right: 0.5rem;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .year, .body {
+                padding: 6px 12px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        {% if current_user.is_authenticated %}
+            <a href="{{ url_for('logout') }}" class="logout-link">Logout</a>
+        {% endif %}
+    </nav>
+    <div class="container">
+        <h1>Vehicle Lookup</h1>
+        <div class="form-group">
+            <label for="make">Vehicle Make</label>
+            <div class="autocomplete">
+                <input type="text" name="make" id="make" placeholder="Enter vehicle make" autocomplete="off">
+                <div class="autocomplete-results" id="make-results"></div>
+            </div>
+        </div>
+
+        <div id="model_row" class="form-group" style="display: none;">
+            <label for="model">Vehicle Model</label>
+            <div class="autocomplete">
+                <input type="text" name="model" id="model" placeholder="Enter vehicle model" autocomplete="off">
+                <div class="autocomplete-results" id="model-results"></div>
+            </div>
+        </div>
+
+        <div id="year_row" class="form-group" style="display: none;">
+            <label>Year:</label>
+            <div id="year_choices"></div>
+        </div>
+
+        <div id="bodystyle_row" class="form-group" style="display: none;">
+            <label>Body Style:</label>
+            <div id="bodystyle_choices"></div>
+        </div>
+
+        <div id="parts_row" style="display: none;">
+            <h2>Parts:</h2>
+            <table id="parts-table">
+                <thead>
+                    <tr>
+                        <th>Opening</th>
+                        <th>Part ID</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody id="parts-body">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript Code
+        
+        // Global variables to store selected values
+        let active = {
+            make: '',
+            model: '',
+            year: '',
+            body: ''
+        };
+        
+        function ajaxRequest(params, callback) {
+            // Function to serialize parameters, including nested objects, and URL-encode square brackets
+            function serialize(obj, prefix) {
+                const str = [];
+                for (const p in obj) {
+                    if (obj.hasOwnProperty(p)) {
+                        let k;
+                        if (prefix) {
+                            // Encode the square brackets as well
+                            k = `${prefix}${encodeURIComponent('[' + p + ']')}`;
+                        } else {
+                            k = encodeURIComponent(p);
+                        }
+                        const v = obj[p];
+                        if (v !== null && typeof v === 'object') {
+                            str.push(serialize(v, k));
+                        } else {
+                            str.push(`${k}=${encodeURIComponent(v)}`);
+                        }
+                    }
+                }
+                return str.join('&');
+            }
+        
+            const formData = serialize(params);
+        
+            // Use fetch to send the request
+            fetch('http://127.0.0.1:5001/proxy', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Server error: ${response.statusText}`);
+                }
+                return response.text(); // Use .text() if the response is not valid JSON
+            })
+            .then(data => {
+                // Parse JSON safely
+                try {
+                    const jsonData = JSON.parse(data);
+                    callback(jsonData);
+                } catch (e) {
+                    console.error('Invalid JSON response:', e);
+                    callback(null);
+                }
+            })
+            .catch(error => {
+                console.error('Fetch error:', error);
+                callback(null);
+            });
+        }
+        
+        // Event listener for Make input
+        document.getElementById('make').addEventListener('input', function() {
+            const value = this.value;
+            if (value.length > 0) {
+                const params = {
+                    task: 'lookup/autocomplete',
+                    which: 'make',
+                    value: value,
+                    choose: '0',
+                    active: active,
+                    aftfn: 'finishAutocomplete'
+                };
+                console.log(params);
+        
+                ajaxRequest(params, function(response) {
+                    const resultsDiv = document.getElementById('make-results');
+                    resultsDiv.innerHTML = '';
+                    resultsDiv.style.display = 'block';
+        
+                    if (response.aftvar && response.aftvar.items.length > 0) {
+                        const ul = document.createElement('ul');
+                        response.aftvar.items.forEach(function(item) {
+                            const li = document.createElement('li');
+                            li.textContent = item.name;
+                            li.dataset.id = item.id;
+                            li.addEventListener('click', function() {
+                                document.getElementById('make').value = item.name;
+                                active.make = item.id;
+                                resultsDiv.style.display = 'none';
+                                loadModelField();
+                            });
+                            ul.appendChild(li);
+                        });
+                        resultsDiv.appendChild(ul);
+                    } else {
+                        resultsDiv.style.display = 'none';
+                    }
+                });
+            } else {
+                document.getElementById('make-results').style.display = 'none';
+            }
+        });
+        
+        // Function to load Model field
+        function loadModelField() {
+        
+            document.getElementById('model_row').style.display = 'block';
+            document.getElementById('model').value = '';
+            active.model = '';
+            active.year = '';
+            active.body = '';
+            document.getElementById('year_row').style.display = 'none';
+            document.getElementById('bodystyle_row').style.display = 'none';
+            document.getElementById('parts_row').style.display = 'none';
+        
+            document.getElementById('model').addEventListener('input', function() {
+                const value = this.value;
+                if (value.length > 0) {
+                    const params = {
+                        task: 'lookup/autocomplete',
+                        which: 'model',
+                        value: value,
+                        choose: '0',
+                        active: active,
+                        aftfn: 'finishAutocomplete'
+                    };
+                    console.log(params);
+        
+                    ajaxRequest(params, function(response) {
+                        const resultsDiv = document.getElementById('model-results');
+                        resultsDiv.innerHTML = '';
+                        resultsDiv.style.display = 'block';
+        
+                        if (response.aftvar.items.length > 0) {
+                            const ul = document.createElement('ul');
+                            response.aftvar.items.forEach(function(item) {
+                                const li = document.createElement('li');
+                                li.textContent = item.name;
+                                li.dataset.id = item.id;
+                                li.addEventListener('click', function() {
+                                    document.getElementById('model').value = item.name;
+                                    active.model = item.id;
+                                    resultsDiv.style.display = 'none';
+                                    loadYearChoices();
+                                });
+                                ul.appendChild(li);
+                            });
+                            resultsDiv.appendChild(ul);
+                        } else {
+                            resultsDiv.style.display = 'none';
+                        }
+                    });
+                } else {
+                    document.getElementById('model-results').style.display = 'none';
+                }
+            });
+        }
+        
+        
+        // Function to load Year choices
+        function loadYearChoices() {
+            const params = {
+                task: 'lookup/autocomplete',
+                which: 'year',
+                value: '',
+                choose: '1',
+                active: active,
+                aftfn: 'finishYear'
+            };
+        
+            ajaxRequest(params, function(response) {
+                document.getElementById('year_row').style.display = 'block';
+                const yearChoices = document.getElementById('year_choices');
+                yearChoices.innerHTML = '';
+        
+                if (response.aftvar && response.aftvar.items.length > 0) {
+                    response.aftvar.items.forEach(function(year) {
+                        const yearLink = document.createElement('a');
+                        yearLink.textContent = "'" + year.year;
+                        yearLink.classList.add('year');
+                        yearLink.dataset.year = year;
+                        yearLink.addEventListener('click', function() {
+                            active.year = year.year;
+                            loadBodyStyles();
+                        });
+                        yearChoices.appendChild(yearLink);
+                        yearChoices.appendChild(document.createTextNode(', '));
+                    });
+                }
+            });
+        }
+        
+        // Function to load Body Style choices
+        function loadBodyStyles() {
+            const params = {
+                task: 'lookup/autocomplete',
+                which: 'body',
+                value: '',
+                choose: '1',
+                active: active,
+                aftfn: 'finishBody'
+            };
+        
+            ajaxRequest(params, function(response) {
+                document.getElementById('bodystyle_row').style.display = 'block';
+                const bodyChoices = document.getElementById('bodystyle_choices');
+                bodyChoices.innerHTML = '';
+        
+                if (response.aftvar && response.aftvar.items.length > 0) {
+                    response.aftvar.items.forEach(function(body) {
+                        const bodyLink = document.createElement('a');
+                        bodyLink.textContent = body.body_style_dsc;
+                        bodyLink.classList.add('body');
+                        bodyLink.dataset.veh = body.veh_id;
+                        bodyLink.addEventListener('click', function() {
+                            active.body = this.dataset.veh;
+                            loadVehicleParts();
+                        });
+                        bodyChoices.appendChild(bodyLink);
+                        bodyChoices.appendChild(document.createElement('br'));
+                    });
+                }
+            });
+        }
+        
+        // Function to load Vehicle Parts
+        function loadVehicleParts() {
+            const params = {
+                task: 'lookup/autocomplete',
+                which: 'vehicle',
+                value: active.body,
+                choose: '1',
+                active: active,
+                aftfn: 'finishVehicle'
+            };
+        
+            ajaxRequest(params, function(response) {
+                document.getElementById('parts_row').style.display = 'block';
+                const partsBody = document.getElementById('parts-body');
+                partsBody.innerHTML = '';
+        
+                if (response.aftvar && response.aftvar.items && response.aftvar.items.glass) {
+                    const glass = response.aftvar.items.glass;
+                    for (const opening in glass) {
+                        glass[opening].forEach(function(part) {
+                            const tr = document.createElement('tr');
+
+                            // Creating the <td> for OPENING
+                            const tdOpening = document.createElement('td');
+                            tdOpening.textContent = part.OPENING;
+
+                            // Creating the <td> for NAGS_GLASS_ID
+                            const tdPartID = document.createElement('td');
+                            const link = document.createElement('a'); // Create <a> element
+                            link.textContent = part.NAGS_GLASS_ID; // Set link text
+                            link.href = `http://127.0.0.1:5001/part-search/${encodeURIComponent(part.NAGS_GLASS_ID)}`; // Set href with NAGS_GLASS_ID
+                            link.target = "_blank"; // Optional: open in a new tab
+
+                            tdPartID.appendChild(link); // Append the link to the <td>
+
+                            // Creating the <td> for description
+                            const tdDescription = document.createElement('td');
+                            tdDescription.textContent = part.description || '';
+
+                            // Append all <td> to the row
+                            tr.appendChild(tdOpening);
+                            tr.appendChild(tdPartID);
+                            tr.appendChild(tdDescription);
+                            
+                            // Append the row to the partsBody (the table body)
+                            partsBody.appendChild(tr);
+                        });
+                    }
+
+                }
+            });
+        }
+        </script>
+</body>
+</html>

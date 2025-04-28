@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIN Search Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2, h3, h4 {
+            color: #2c3e50;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .glass-part {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .qualifiers, .annotations, .oem-parts {
+            margin-top: 10px;
+        }
+        .qualifier, .annotation, .oem-part {
+            background-color: #e9ecef;
+            padding: 5px 10px;
+            margin: 5px 0;
+            border-radius: 3px;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+        .add-to-cart {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 2px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .add-to-cart:hover {
+            background-color: #45a049;
+        }
+        .part-link {
+            color: #3498db;
+            text-decoration: none;
+        }
+        .part-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>VIN Search Results</h1>
+    
+    {% if data and data.get('aftvar') and data['aftvar'].get('VIN') %}
+        <h2>Vehicle Information</h2>
+        <table>
+            <tr><th>VIN</th><td>{{ data['aftvar'].get('VIN', 'N/A') }}</td></tr>
+            <tr><th>Year</th><td>{{ data['aftvar'].get('year', 'N/A') }}</td></tr>
+            <tr><th>Make</th><td>{{ data['aftvar'].get('make_name', 'N/A') }}</td></tr>
+            <tr><th>Model</th><td>{{ data['aftvar'].get('model_name', 'N/A') }}</td></tr>
+            <tr><th>Body Style</th><td>{{ data['aftvar'].get('body_style_dsc', 'N/A') }}</td></tr>
+            <tr><th>Graphic ID</th><td>{{ data['aftvar'].get('graphic_id', 'N/A') }}</td></tr>
+        </table>
+
+        <h2>NAGS Glass Information</h2>
+        {% for glass in data['aftvar'].get('NagsGlass', []) %}
+            <div class="glass-part">
+                <h3>{{ glass.get('description') or 'Glass Part' }}</h3>
+                <table>
+                    <tr>
+                        <th>Part Number</th>
+                        <td>
+                            <a href="http://127.0.0.1:5001/part-search/{{ glass.get('id', '') }}" class="part-link" target="_blank">
+                                {{ glass.get('id', 'N/A') }}
+                            </a>
+                        </td>
+                    </tr>
+                    <tr><th>Type</th><td>{{ glass.get('type', 'N/A') }}</td></tr>
+                    <tr><th>Price</th><td>${{ glass.get('price', 'N/A') }}</td></tr>
+                    <tr><th>ADAS</th><td>{{ 'Yes' if glass.get('adas') else 'No' }}</td></tr>
+                </table>
+
+                {% if glass.get('Qualifiers') %}
+                    <h4>Qualifiers</h4>
+                    <div class="qualifiers">
+                        {% for qualifier in glass['Qualifiers'] %}
+                            <div class="qualifier">{{ qualifier.get('dsc', '') }} ({{ qualifier.get('category', '') }})</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                {% if glass.get('Configurations') %}
+                    <h4>Configurations</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Part Number</th>
+                                <th>Color</th>
+                                <th>Price</th>
+                                <th>Labor</th>
+                                <th>Attachment</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for config in glass['Configurations'] %}
+                                <tr>
+                                    <td>
+                                        <a href="http://127.0.0.1:5001/part-search/{{ config.get('nags_part_number', '') }}" class="part-link" target="_blank">
+                                            {{ config.get('nags_part_number', 'N/A') }}
+                                        </a>
+                                    </td>
+                                    <td>{{ config.get('glass_color_dsc', 'N/A') }}</td>
+                                    <td>${{ config.get('prc', 'N/A') }}</td>
+                                    <td>{{ config.get('nags_labor', 'N/A') }} hours</td>
+                                    <td>{{ config.get('atchmnt_dsc', 'N/A') }}</td>
+                                    <td>
+                                        <button class="add-to-cart" onclick="addToCart('{{ config.get('nags_part_number', '') }}', '{{ glass.get('description', 'Glass Part') }} - {{ config.get('glass_color_dsc', 'N/A') }}', '{{ config.get('prc', '0') }}')">Add to Cart</button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+
+                {% if glass.get('Annotations') %}
+                    <h4>Annotations</h4>
+                    <div class="annotations">
+                        {% for annotation in glass['Annotations'] %}
+                            <div class="annotation">{{ annotation.get('key', '') }}: {{ annotation.get('content', '') }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                {% if glass.get('OEM') %}
+                    <h4>OEM Parts</h4>
+                    <div class="oem-parts">
+                        {% for oem in glass['OEM'] %}
+                            <div class="oem-part">
+                                <strong>
+                                    {{ oem.get('oem_glass_id', 'N/A') }}
+                                </strong> ({{ oem.get('mf_name', 'N/A') }})
+                                <br>Price: ${{ oem.get('price', 'N/A') }} ({{ oem.get('price_status', 'N/A') }})
+                                {% if oem.get('Qualifiers') %}
+                                    <br>Qualifiers:
+                                    {% for qual in oem['Qualifiers'] %}
+                                        {{ qual.get('dsc', '') }}{% if not loop.last %}, {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                {% if glass.get('Notes') %}
+                    <h4>Notes</h4>
+                    <ul>
+                        {% for note in glass['Notes'] %}
+                            <li>{{ note.get('text', '') }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% else %}
+        <p class="error">Error: No data available or invalid VIN.</p>
+    {% endif %}
+
+    <script>
+        function addToCart(partNumber, description, price) {
+            alert(`Added to cart: ${description} (${partNumber}) - $${price}`);
+        }
+    </script>
+</body>
+</html>

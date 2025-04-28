@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parts Search</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🔍%3C/text%3E%3C/svg%3E">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --background-color: #ecf0f1;
+            --card-background: #ffffff;
+            --text-color: #333333;
+            --input-border: #bdc3c7;
+            --button-hover: #2980b9;
+            --logout-color: #e74c3c;
+            --logout-hover: #c0392b;
+        }
+
+        body {
+            font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        nav {
+            background-color: var(--secondary-color);
+            padding: 1rem;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .logout-link {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: var(--logout-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .logout-link:hover {
+            background-color: var(--logout-hover);
+        }
+
+        .logout-link::before {
+            content: "\1F511";
+            margin-right: 0.5rem;
+        }
+
+        .container {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .card {
+            background-color: var(--card-background);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--secondary-color);
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .search-method {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--secondary-color);
+            font-weight: 500;
+        }
+
+        select, input, button {
+            width: 100%;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--input-border);
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23333' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 12px;
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-weight: 500;
+        }
+
+        button:hover {
+            background-color: var(--button-hover);
+        }
+
+        .input-container {
+            display: none;
+            margin-top: 1rem;
+        }
+
+        .admin-section {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--input-border);
+        }
+
+        .admin-section h2 {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .admin-button {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: var(--secondary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .admin-button:hover {
+            background-color: var(--button-hover);
+        }
+
+        .admin-section {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--input-border);
+        }
+
+        .admin-section h2 {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .admin-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .admin-button {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: var(--secondary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .admin-button:hover {
+            background-color: var(--button-hover);
+        }
+        
+    </style>
+</head>
+<body>
+    <nav>
+        {% if current_user.is_authenticated %}
+            <a href="{{ url_for('logout') }}" class="logout-link">Logout</a>
+        {% endif %}
+    </nav>
+    <div class="container">
+        <div class="card">
+            <h1>Parts Search</h1>
+            <div class="search-method">
+                <label for="search-method">Select the method of searching:</label>
+                <select id="search-method">
+                    <option value="">--Select--</option>
+                    <option value="part-number">By Part Number</option>
+                    <option value="vin-number">By VIN Number</option>
+                    <option value="vehicle-type">By Vehicle Type</option>
+                </select>
+            </div>
+            <div id="input-container" class="input-container">
+                <label id="input-label" for="search-input"></label>
+                <input type="text" id="search-input">
+                <button id="search-button">Search</button>
+            </div>
+
+            {% if current_user.is_authenticated and current_user.is_admin %}
+            <div class="admin-section">
+                <h2>Admin Actions</h2>
+                <div class="admin-buttons">
+                    <a href="{{ url_for('add_user') }}" class="admin-button">Add a User</a>
+                    <a href="{{ url_for('manage_users') }}" class="admin-button">Manage Users</a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    
+
+    <script>
+        document.getElementById('search-method').addEventListener('change', function() {
+            const selectedMethod = this.value;
+            const inputContainer = document.getElementById('input-container');
+            const inputLabel = document.getElementById('input-label');
+            const searchInput = document.getElementById('search-input');
+
+            if (selectedMethod === 'vehicle-type') {
+                window.location.href = 'http://127.0.0.1:5014/vehicle-lookup';
+            } else if (selectedMethod === 'part-number') {
+                inputContainer.style.display = 'block';
+                inputLabel.textContent = 'Enter Part Number:';
+                searchInput.placeholder = 'Part Number';
+            } else if (selectedMethod === 'vin-number') {
+                inputContainer.style.display = 'block';
+                inputLabel.textContent = 'Enter VIN Number:';
+                searchInput.placeholder = 'VIN Number';
+            } else {
+                inputContainer.style.display = 'none';
+            }
+        });
+
+        document.getElementById('search-button').addEventListener('click', function() {
+            const selectedMethod = document.getElementById('search-method').value;
+            const searchInput = document.getElementById('search-input').value;
+
+            if (selectedMethod === 'part-number' && searchInput) {
+                window.location.href = `http://127.0.0.1:5014/part-search/${searchInput}`;
+            } else if (selectedMethod === 'vin-number' && searchInput) {
+                window.location.href = `http://127.0.0.1:5014/vin-search/${searchInput}`;
+            }
+        });
+    </script>
+</body>
+</html>
