@@ -238,7 +238,7 @@
             const searchInput = document.getElementById('search-input');
 
             if (selectedMethod === 'vehicle-type') {
-                window.location.href = 'http://127.0.0.1:5000/vehicle-lookup';
+                window.location.href = 'http://127.0.0.1:2211/vehicle-lookup';
             } else if (selectedMethod === 'part-number') {
                 inputContainer.style.display = 'block';
                 inputLabel.textContent = 'Enter Part Number:';
@@ -257,9 +257,9 @@
             const searchInput = document.getElementById('search-input').value;
 
             if (selectedMethod === 'part-number' && searchInput) {
-                window.location.href = `http://127.0.0.1:5000/part-search/${searchInput}`;
+                window.location.href = `http://127.0.0.1:2211/part-search/${searchInput}`;
             } else if (selectedMethod === 'vin-number' && searchInput) {
-                window.location.href = `http://127.0.0.1:5000/vin-search/${searchInput}`;
+                window.location.href = `http://127.0.0.1:2211/vin-search/${searchInput}`;
             }
         });
     </script>

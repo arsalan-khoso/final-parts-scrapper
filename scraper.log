@@ -322,3 +322,89 @@ Stacktrace:
 2025-04-28 23:58:08,502 - INFO - Could not find parts through elements, returning default parts
 2025-04-28 23:58:08,503 - INFO - PGW scraper completed in 50.83s
 2025-04-28 23:58:08,505 - INFO - All scrapers completed in 61.98s
+2025-04-29 00:14:55,467 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.2.0.27:5000
+2025-04-29 00:14:55,468 - INFO - [33mPress CTRL+C to quit[0m
+2025-04-29 00:14:55,470 - INFO -  * Restarting with stat
+2025-04-29 00:14:56,682 - WARNING -  * Debugger is active!
+2025-04-29 00:14:56,684 - INFO -  * Debugger PIN: 621-090-782
+2025-04-29 00:17:22,983 - INFO -  * Detected change in 'c:\\Users\\Arsalan-Dev\\Desktop\\newdevelop\\Streamlit-PartsScraper\\app.py', reloading
+2025-04-29 00:17:23,137 - INFO -  * Restarting with stat
+2025-04-29 00:17:24,547 - WARNING -  * Debugger is active!
+2025-04-29 00:17:24,549 - INFO -  * Debugger PIN: 621-090-782
+2025-04-29 00:17:36,743 - INFO -  * Detected change in 'c:\\Users\\Arsalan-Dev\\Desktop\\newdevelop\\Streamlit-PartsScraper\\app.py', reloading
+2025-04-29 00:17:36,894 - INFO -  * Restarting with stat
+2025-04-29 00:17:38,194 - WARNING -  * Debugger is active!
+2025-04-29 00:17:38,196 - INFO -  * Debugger PIN: 621-090-782
+2025-04-29 00:17:46,896 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:2211
+ * Running on http://10.2.0.27:2211
+2025-04-29 00:17:46,896 - INFO - [33mPress CTRL+C to quit[0m
+2025-04-29 00:17:46,898 - INFO -  * Restarting with stat
+2025-04-29 00:17:48,200 - WARNING -  * Debugger is active!
+2025-04-29 00:17:48,203 - INFO -  * Debugger PIN: 621-090-782
+2025-04-29 00:17:53,424 - INFO - 127.0.0.1 - - [29/Apr/2025 00:17:53] "GET / HTTP/1.1" 200 -
+2025-04-29 00:18:01,923 - INFO - 127.0.0.1 - - [29/Apr/2025 00:18:01] "GET /part-search/2000 HTTP/1.1" 200 -
+2025-04-29 00:18:08,504 - INFO - patching driver executable C:\Users\Arsalan-Dev\appdata\roaming\undetected_chromedriver\undetected_chromedriver.exe
+2025-04-29 00:18:11,292 - INFO - Chrome driver set up in 9.19s
+2025-04-29 00:18:11,292 - INFO - Searching part in IGC: 2000
+2025-04-29 00:18:11,293 - INFO - Searching part in IGC: 2000
+2025-04-29 00:18:11,293 - INFO - Logging in to Import Glass Corp
+2025-04-29 00:18:11,871 - INFO - Chrome driver set up in 0.58s
+2025-04-29 00:18:11,872 - INFO - Searching part in PGW: 2000
+2025-04-29 00:18:11,880 - INFO - Not on search page, attempting to login first
+2025-04-29 00:18:11,880 - INFO - Logging in to Buy PGW Auto Glass
+2025-04-29 00:18:12,466 - INFO - Chrome driver set up in 0.59s
+2025-04-29 00:18:12,466 - INFO - Searching part in Pilkington: 2000
+2025-04-29 00:18:13,058 - INFO - Chrome driver set up in 0.59s
+2025-04-29 00:18:13,058 - INFO - Searching part in MyGrant: 2000
+2025-04-29 00:18:13,059 - INFO - Checking login status for MyGrant
+2025-04-29 00:18:13,059 - INFO - Performing full login to MyGrant
+2025-04-29 00:18:19,262 - INFO - Login successful - saved 3 cookies
+2025-04-29 00:18:20,469 - INFO - Login successful - saved 6 cookies
+2025-04-29 00:18:20,469 - INFO - Searching for part in MyGrant: 2000
+2025-04-29 00:18:21,829 - INFO - Search submitted, waiting for results...
+2025-04-29 00:18:23,472 - INFO - Found 4 matching part numbers
+2025-04-29 00:18:23,472 - INFO - Processing part detail for DW02000
+2025-04-29 00:18:23,473 - INFO - Using direct URL: https://importglasscorp.com/glass/DW02000/
+2025-04-29 00:18:24,442 - INFO - Logging form - trying to login
+2025-04-29 00:18:26,657 - INFO - Processing location: Doral, FL - (305) 477-9898
+2025-04-29 00:18:26,804 - INFO - Found 3 parts at Doral, FL - (305) 477-9898
+2025-04-29 00:18:26,813 - INFO - Processing location: Orlando, FL - (407) 859-6860
+2025-04-29 00:18:27,022 - INFO - Found 4 parts at Orlando, FL - (407) 859-6860
+2025-04-29 00:18:27,034 - INFO - Processing location: Tampa, FL - (813) 621-7500
+2025-04-29 00:18:27,175 - INFO - Found 3 parts at Tampa, FL - (813) 621-7500
+2025-04-29 00:18:27,189 - INFO - Processing location: Fort Lauderdale, FL - (954) 625-2463
+2025-04-29 00:18:27,388 - INFO - Found 3 parts at Fort Lauderdale, FL - (954) 625-2463
+2025-04-29 00:18:27,389 - INFO - Found 13 parts for 2000
+2025-04-29 00:18:27,389 - INFO - MyGrant scraper completed in 14.92s
+2025-04-29 00:18:27,395 - INFO - 127.0.0.1 - - [29/Apr/2025 00:18:27] "GET /products/2000 HTTP/1.1" 200 -
+2025-04-29 00:18:29,286 - INFO - Processing part detail for FW02000
+2025-04-29 00:18:29,286 - INFO - Using direct URL: https://importglasscorp.com/glass/FW02000/
+2025-04-29 00:18:31,512 - INFO - username inserted
+2025-04-29 00:18:31,575 - INFO - password inserted
+2025-04-29 00:18:31,656 - INFO - checkbox clicked
+2025-04-29 00:18:35,086 - INFO - Clicked 'I Agree' button
+2025-04-29 00:18:36,146 - INFO - Found available part: FW02000, $237.97, Opa-Locka
+2025-04-29 00:18:36,147 - INFO - Processing part detail for FD02000
+2025-04-29 00:18:36,147 - INFO - Using direct URL: https://importglasscorp.com/glass/FD02000/
+2025-04-29 00:18:37,309 - INFO - crendential submitted
+2025-04-29 00:18:37,370 - INFO - Processing part detail for WKTF2000
+2025-04-29 00:18:37,370 - INFO - Using direct URL: https://importglasscorp.com/glass/WKTF2000/
+2025-04-29 00:18:38,211 - INFO - Final results count: 1
+2025-04-29 00:18:38,212 - INFO - IGC scraper completed in 36.11s
+2025-04-29 00:18:40,508 - INFO - successfully login
+2025-04-29 00:18:40,564 - INFO - Closed popup window
+2025-04-29 00:18:40,565 - INFO - Searching part in Pilkington: 2000
+2025-04-29 00:18:45,370 - INFO - Closed popup window
+2025-04-29 00:18:50,466 - INFO - Location: Miami, FL.
+2025-04-29 00:18:51,131 - INFO - Found 24 parts for 2000
+2025-04-29 00:18:51,131 - INFO - Pilkington scraper completed in 39.26s
+2025-04-29 00:18:56,774 - INFO - Login successful (detected from URL)
+2025-04-29 00:18:56,774 - INFO - Searching for part: 2000
+2025-04-29 00:19:15,466 - INFO - Found 6 parts matching 2000
+2025-04-29 00:19:15,467 - INFO - PGW scraper completed in 64.17s
+2025-04-29 00:19:15,468 - INFO - All scrapers completed in 73.52s
