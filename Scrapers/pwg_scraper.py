@@ -16,15 +16,11 @@ def login(driver, logger):
     load_dotenv()
     username = os.getenv('PGW_USER')
     password = os.getenv('PGW_PASS')
-    
-    # Check if credentials are available
-    if not username or not password:
-        logger.error("PGW credentials not found in environment variables")
-        return False
 
     max_attempts = 1
     for attempt in range(max_attempts):
         try:
+
             # Go to the login page directly
             driver.get('https://buypgwautoglass.com/')
 
@@ -147,7 +143,7 @@ def login(driver, logger):
                 time.sleep(2)
             else:
                 logger.error(f"Login error: {e}")
-                return False  # Return False instead of raising exception to handle it gracefully
+                raise
 
 
 def searchPart(driver, partNo, logger):
@@ -290,7 +286,7 @@ def PWGScraper(partNo, driver, logger):
         return result
     except Exception as e:
         logger.error(f"Error in PWG scraper: {e}")
-        return [[f"Not Found", "Not Found", "Not Found", "Not Found", "Not Found"]]  # Return default parts in case of error
+
 
 
 # For testing purposes
@@ -314,13 +310,16 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
     logger = logging.getLogger(__name__)
 
+    # Set up driver
+
+
     try:
         # Test the scraper
         results = PWGScraper("2000", driver, logger)
 
-        if results and results[0][0] != "Not Found":
+        if results:
             for part in results:
-                print(f"Part: {part[0]}, Availability: {part[1]}, Price: {part[2]}, Location: {part[3]}, Description: {part[4]}")
+                print(f"Part: {part[0]}, Name: {part[1]}, Price: {part[2]}, Location: {part[3]}")
         else:
             print("No results found")
     finally:

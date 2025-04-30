@@ -9,6 +9,10 @@ from selenium.common.exceptions import NoSuchElementException, TimeoutException,
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 
+
+
+
+
 def PilkingtonScraper(partNo, driver, logger):
     """Optimized scraper that returns part data from Pilkington website"""
     wait = WebDriverWait(driver, 10)
@@ -16,68 +20,55 @@ def PilkingtonScraper(partNo, driver, logger):
     # Default parts to return if methods fail
     default_parts = [["Not Found", "Not Found", "Not Found", "Not Found"]]
 
-    try:
-        load_dotenv()
-        username = os.getenv('PIL_USER')
-        password = os.getenv('PIL_PASS')
-        
-        # Check if credentials are available
-        if not username or not password:
-            logger.error("Pilkington credentials not found in environment variables")
-            return default_parts
+    load_dotenv()
+    username = os.getenv('PIL_USER')
+    password = os.getenv('PIL_PASS')
 
+    try:
         # First, try to see if we're already logged in by navigating to the main site
         driver.get('https://shop.pilkington.com/')
         logger.info("Logging form - trying to login")
         wait = WebDriverWait(driver, 10)
-        
-        try:
-            login_button = wait.until(EC.visibility_of_element_located((By.XPATH, "//button[contains(@class, 'btn-login') or contains(text(), 'Customer Login')]")))
-            login_button.click()
+        login_button = wait.until(EC.visibility_of_element_located((By.XPATH, "//button[contains(@class, 'btn-login') or contains(text(), 'Customer Login')]")))
+        login_button.click()
 
-            # Step 1: Wait for the username field and enter text
-            username_field = wait.until(EC.visibility_of_element_located((By.ID, "username")))
-            username_field.send_keys(username)
-            logger.info("username inserted")
+        # Step 1: Wait for the username field and enter text
+        username_field = wait.until(EC.visibility_of_element_located((By.ID, "username")))
+        username_field.send_keys(username)
+        logger.info("username inserted")
 
-            # Step 2: Wait for the password field and enter text
-            password_field = wait.until(EC.visibility_of_element_located((By.ID, "password")))
-            password_field.send_keys(password)
-            logger.info("password inserted")
 
-            # Step 3: Wait for the checkbox to be clickable and check it
-            checkbox = wait.until(EC.element_to_be_clickable((By.ID, "cbTerms")))
-            checkbox.click()
-            logger.info("checkbox clicked")
+        # Step 2: Wait for the password field and enter text
+        password_field = wait.until(EC.visibility_of_element_located((By.ID, "password")))
+        password_field.send_keys(password)
 
-            # Step 4: Wait for the Sign In button and click it
-            sign_in_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@type='button' and @ng-click='submit()']")))
-            sign_in_button.click()
-            logger.info("crendential submitted")
-            
-            # Wait for possible popup
-            time.sleep(2)
-            
-            # Try to find popup elements
+        logger.info("password inserted")
+
+        # Step 3: Wait for the checkbox to be clickable and check it
+        checkbox = wait.until(EC.element_to_be_clickable((By.ID, "cbTerms")))
+        checkbox.click()
+
+        logger.info("checkbox clicked")
+
+
+        # Step 4: Wait for the Sign In button and click it
+        sign_in_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@type='button' and @ng-click='submit()']")))
+        sign_in_button.click()
+        logger.info("crendential submitted")
+        popup_elements = wait.until(EC.presence_of_all_elements_located((By.XPATH, "//div[@uib-modal-window='modal-window'] | //div[contains(@class, 'modal')]")))
+
+        if 'https://shop.pilkington.com/ecomm/search/basic/' in driver.current_url or 'https://shop.pilkington.com/ecomm' in driver.current_url:
+            logger.info("successfully login")
             try:
-                popup_elements = driver.find_elements(By.XPATH, "//div[@uib-modal-window='modal-window'] | //div[contains(@class, 'modal')]")
+
                 if popup_elements:
-                    close_buttons = driver.find_elements(By.XPATH, ".//button[@class='close'] | //button[contains(text(), 'Close')]")
+                    close_buttons = driver.find_elements(By.XPATH,
+                                                         ".//button[@class='close'] | //button[contains(text(), 'Close')]")
                     if close_buttons:
                         driver.execute_script("arguments[0].click();", close_buttons[0])
                         logger.info("Closed popup window")
             except Exception as e:
                 logger.warning(f"Error handling popup: {e}")
-        
-        except Exception as e:
-            logger.error(f"Login error: {e}")
-            return default_parts
-
-        # Verify we're logged in by checking URL
-        if 'https://shop.pilkington.com/ecomm/search/basic/' in driver.current_url or 'https://shop.pilkington.com/ecomm' in driver.current_url:
-            logger.info("successfully login")
-        else:
-            logger.warning("Login may have failed, continuing anyway")
 
         # Go to search URL
         url = f'https://shop.pilkington.com/ecomm/search/basic/?queryType=2&query={partNo}&inRange=true&page=1&pageSize=30&sort=PopularityRankAsc'
@@ -86,7 +77,7 @@ def PilkingtonScraper(partNo, driver, logger):
 
         # Handle popup windows - simplified approach
         try:
-            popup_elements = driver.find_elements(By.XPATH, "//div[@uib-modal-window='modal-window'] | //div[contains(@class, 'modal')]")
+            popup_elements = wait.until(EC.presence_of_all_elements_located((By.XPATH, "//div[@uib-modal-window='modal-window'] | //div[contains(@class, 'modal')]")))
             if popup_elements:
                 close_buttons = driver.find_elements(By.XPATH, ".//button[@class='close'] | //button[contains(text(), 'Close')]")
                 if close_buttons:
@@ -95,12 +86,9 @@ def PilkingtonScraper(partNo, driver, logger):
         except Exception as e:
             logger.warning(f"Error handling popup: {e}")
 
-        # Give the page time to load
-        time.sleep(2)
-
         # Check for "no results" message
         try:
-            not_found_elements = driver.find_elements(By.XPATH, "//span[contains(text(), 'Found no')]")
+            not_found_elements = driver.find_elements(By.XPATH, "//span[contains(text(), 'Found no') and .//span[@data-slot='inRangeFilter']//strong[contains(text(), 'in range')]]")
             if not_found_elements:
                 logger.info(f"No data found for part number {partNo}")
                 return default_parts
@@ -111,6 +99,7 @@ def PilkingtonScraper(partNo, driver, logger):
         try:
             table_xpath = "//table[contains(@class, 'products-table') and contains(@class, 'table') and contains(@class, 'table-striped') and contains(@class, 'no-image')]"
 
+            wait.until(EC.visibility_of_element_located((By.XPATH, table_xpath)))
             # Check if table exists first
             tables = driver.find_elements(By.XPATH, table_xpath)
             if not tables:
@@ -180,11 +169,14 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
     logger = logging.getLogger(__name__)
 
+    # Set up driver
+
+
     try:
         # Test the scraper
         results = PilkingtonScraper("2000", driver, logger)
 
-        if results and results[0][0] != "Not Found":
+        if results:
             for part in results:
                 print(f"Part: {part[0]}, Name: {part[1]}, Price: {part[2]}, Location: {part[3]}")
         else:

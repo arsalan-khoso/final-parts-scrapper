@@ -20,18 +20,20 @@ logger = logging.getLogger(__name__)
 # Global session variable
 _login_session = None
 
-def login(driver, logger):
-    """Login to Buy PGW Auto Glass website with session management"""
+
+def login(driver):
+    """Login to Import Glass Corp website with session management"""
     global _login_session
 
-    logger.info("Logging in to Buy PGW Auto Glass")
+    logger.info("Logging in to Import Glass Corp")
     load_dotenv()
-    username = os.getenv('PGW_USER')
-    password = os.getenv('PGW_PASS')
+    username = os.getenv('IGC_USER')
+    password = os.getenv('IGC_PASS')
+    cn = os.getenv('IGC_CN')
 
     try:
         # Make sure we're at the login page first
-        driver.get('https://buypgwautoglass.com')
+        driver.get('https://importglasscorp.com')
 
         # First check if we already have cookies from a previous login
         if _login_session is not None and len(_login_session) > 0:
@@ -44,9 +46,9 @@ def login(driver, logger):
                     logger.warning(f"Failed to add cookie: {e}")
 
             # Try to navigate to a protected page to check if cookies work
-            driver.get('https://buypgwautoglass.com/PartSearch/search.asp')
+            driver.get('https://importglasscorp.com/product/search/')
             # If we're not redirected to login page, session is valid
-            if "PartSearch" in driver.current_url:
+            if not driver.find_elements(By.ID, "email-address"):
                 logger.info("Session cookies still valid")
                 return True
             else:
@@ -54,37 +56,30 @@ def login(driver, logger):
                 _login_session = None
 
         # If no session or expired session, perform full login
-        wait = WebDriverWait(driver, 10)
-        driver.get('https://buypgwautoglass.com')
+        wait = WebDriverWait(driver, 5)
+        driver.get('https://importglasscorp.com')
 
         # Find and fill login form elements
         try:
-            user_input = wait.until(EC.presence_of_element_located((By.ID, 'txtUsername')))
-            pass_input = wait.until(EC.presence_of_element_located((By.ID, 'txtPassword')))
+            email_field = wait.until(EC.presence_of_element_located((By.ID, 'email-address')))
+            cn_field = wait.until(EC.presence_of_element_located((By.ID, 'customer-number')))
+            pass_field = wait.until(EC.presence_of_element_located((By.ID, 'password')))
 
             # Clear and fill inputs
-            user_input.clear()
-            pass_input.clear()
+            email_field.clear()
+            cn_field.clear()
+            pass_field.clear()
 
-            user_input.send_keys(username)
-            pass_input.send_keys(password)
+            email_field.send_keys(username)
+            cn_field.send_keys(cn)
+            pass_field.send_keys(password)
 
             # Submit form
-            login_button = wait.until(EC.element_to_be_clickable((By.ID, 'button1')))
-            login_button.click()
+            submit_button = wait.until(EC.element_to_be_clickable((By.TAG_NAME, 'button')))
+            submit_button.click()
 
             # Wait for login to complete
-            wait.until(EC.url_changes('https://buypgwautoglass.com'))
-            
-            # Handle any "I Agree" prompt that might appear
-            try:
-                agree_buttons = driver.find_elements(By.XPATH, 
-                                "//input[@value='I Agree'] | //button[contains(text(), 'Agree')]")
-                if agree_buttons and len(agree_buttons) > 0:
-                    agree_buttons[0].click()
-                    logger.info("Clicked 'I Agree' button")
-            except Exception as e:
-                logger.warning(f"Error handling agreement screen: {e}")
+            wait.until(EC.url_changes('https://importglasscorp.com'))
 
             # Save cookies for future use
             _login_session = driver.get_cookies()
@@ -99,7 +94,8 @@ def login(driver, logger):
         logger.error(f"Login error: {e}")
         return False
 
-def process_part_detail(driver, part_number, logger):
+
+def process_part_detail(driver, part_number):
     """Process a single part detail using direct URL"""
     try:
         logger.info(f"Processing part detail for {part_number}")
@@ -175,7 +171,7 @@ def IGCScraper(partNo, driver, logger):
 
     try:
         # Check login status first before navigation
-        if not login(driver, logger):  # Pass logger here
+        if not login(driver):
             logger.error("Failed to login")
             return None
 
@@ -239,7 +235,7 @@ def IGCScraper(partNo, driver, logger):
         final_results = []
 
         for part_number in part_numbers:
-            result = process_part_detail(driver, part_number, logger)  # Pass logger here
+            result = process_part_detail(driver, part_number)
             if result:
                 final_results.append(result)
 
@@ -270,7 +266,7 @@ if __name__ == "__main__":
 
     try:
         # First login separately to troubleshoot any login issues
-        login_successful = login(driver, logger)  # Pass logger here
+        login_successful = login(driver)
         if not login_successful:
             print("Initial login failed. Check credentials and site availability.")
             driver.quit()
@@ -284,7 +280,7 @@ if __name__ == "__main__":
 
         for part_no in part_numbers:
             print(f"Searching for part {part_no}...")
-            results = IGCScraper(part_no, driver, logger)  # Pass logger here
+            results = IGCScraper(part_no, driver, logger)
             all_results[part_no] = results
 
             # Print results for this part
