@@ -595,3 +595,9 @@ Stacktrace:
 2025-05-01 00:47:51,352 - INFO -  * Debugger PIN: 621-090-782
 2025-05-01 00:49:09,956 - INFO -  * Detected change in 'c:\\Users\\Arsalan-Dev\\Desktop\\newdevelop\\Streamlit-PartsScraper\\Scrapers\\pwg_scraper.py', reloading
 2025-05-01 00:49:10,106 - INFO -  * Restarting with stat
+2025-05-01 00:49:11,428 - WARNING -  * Debugger is active!
+2025-05-01 00:49:11,431 - INFO -  * Debugger PIN: 621-090-782
+2025-05-01 00:49:15,663 - INFO - 127.0.0.1 - - [01/May/2025 00:49:15] "[32mGET /part-search/2000 HTTP/1.1[0m" 302 -
+2025-05-01 00:49:15,673 - INFO - 127.0.0.1 - - [01/May/2025 00:49:15] "GET /login?next=/part-search/2000 HTTP/1.1" 200 -
+2025-05-01 00:49:17,396 - INFO - 127.0.0.1 - - [01/May/2025 00:49:17] "[32mPOST /login?next=/part-search/2000 HTTP/1.1[0m" 302 -
+2025-05-01 00:49:17,414 - INFO - 127.0.0.1 - - [01/May/2025 00:49:17] "GET / HTTP/1.1" 200 -
