@@ -408,3 +408,176 @@ Stacktrace:
 2025-04-29 00:19:15,466 - INFO - Found 6 parts matching 2000
 2025-04-29 00:19:15,467 - INFO - PGW scraper completed in 64.17s
 2025-04-29 00:19:15,468 - INFO - All scrapers completed in 73.52s
+2025-05-01 00:16:50,533 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:2211
+ * Running on http://192.168.170.69:2211
+2025-05-01 00:16:50,534 - INFO - [33mPress CTRL+C to quit[0m
+2025-05-01 00:16:50,537 - INFO -  * Restarting with stat
+2025-05-01 00:16:51,638 - WARNING -  * Debugger is active!
+2025-05-01 00:16:51,641 - INFO -  * Debugger PIN: 621-090-782
+2025-05-01 00:16:54,889 - INFO - 192.168.170.69 - - [01/May/2025 00:16:54] "[32mGET / HTTP/1.1[0m" 302 -
+2025-05-01 00:16:54,921 - INFO - 192.168.170.69 - - [01/May/2025 00:16:54] "GET /login?next=/ HTTP/1.1" 200 -
+2025-05-01 00:16:54,976 - INFO - 192.168.170.69 - - [01/May/2025 00:16:54] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-05-01 00:17:01,747 - INFO - 192.168.170.69 - - [01/May/2025 00:17:01] "POST /login?next=/ HTTP/1.1" 200 -
+2025-05-01 00:17:07,820 - INFO - 192.168.170.69 - - [01/May/2025 00:17:07] "[32mPOST /login?next=/ HTTP/1.1[0m" 302 -
+2025-05-01 00:17:07,935 - INFO - 192.168.170.69 - - [01/May/2025 00:17:07] "GET / HTTP/1.1" 200 -
+2025-05-01 00:17:12,628 - INFO - 127.0.0.1 - - [01/May/2025 00:17:12] "[32mGET /part-search/2000 HTTP/1.1[0m" 302 -
+2025-05-01 00:17:12,634 - INFO - 127.0.0.1 - - [01/May/2025 00:17:12] "GET /login?next=/part-search/2000 HTTP/1.1" 200 -
+2025-05-01 00:17:12,682 - INFO - 127.0.0.1 - - [01/May/2025 00:17:12] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-05-01 00:17:19,307 - INFO - 127.0.0.1 - - [01/May/2025 00:17:19] "[32mPOST /login?next=/part-search/2000 HTTP/1.1[0m" 302 -
+2025-05-01 00:17:19,316 - INFO - 127.0.0.1 - - [01/May/2025 00:17:19] "GET / HTTP/1.1" 200 -
+2025-05-01 00:17:22,730 - INFO - 127.0.0.1 - - [01/May/2025 00:17:22] "GET /part-search/2000 HTTP/1.1" 200 -
+2025-05-01 00:17:26,340 - INFO - patching driver executable C:\Users\Arsalan-Dev\appdata\roaming\undetected_chromedriver\undetected_chromedriver.exe
+2025-05-01 00:17:32,261 - INFO - Chrome driver set up in 9.38s
+2025-05-01 00:17:32,262 - INFO - Searching part in IGC: 2000
+2025-05-01 00:17:32,263 - INFO - Searching part in IGC: 2000
+2025-05-01 00:17:32,263 - INFO - Logging in to Import Glass Corp
+2025-05-01 00:17:32,863 - INFO - Chrome driver set up in 0.60s
+2025-05-01 00:17:32,863 - INFO - Searching part in PGW: 2000
+2025-05-01 00:17:32,871 - INFO - Not on search page, attempting to login first
+2025-05-01 00:17:32,872 - INFO - Logging in to Buy PGW Auto Glass
+2025-05-01 00:17:33,447 - INFO - Chrome driver set up in 0.58s
+2025-05-01 00:17:33,447 - INFO - Searching part in Pilkington: 2000
+2025-05-01 00:17:34,046 - INFO - Chrome driver set up in 0.60s
+2025-05-01 00:17:34,047 - INFO - Searching part in MyGrant: 2000
+2025-05-01 00:17:34,048 - INFO - Checking login status for MyGrant
+2025-05-01 00:17:34,048 - INFO - Performing full login to MyGrant
+2025-05-01 00:17:39,136 - INFO - Login successful - saved 3 cookies
+2025-05-01 00:17:39,744 - INFO - Logging form - trying to login
+2025-05-01 00:17:41,754 - INFO - Search submitted, waiting for results...
+2025-05-01 00:17:43,276 - INFO - Found 4 matching part numbers
+2025-05-01 00:17:43,276 - INFO - Processing part detail for DW02000
+2025-05-01 00:17:43,276 - INFO - Using direct URL: https://importglasscorp.com/glass/DW02000/
+2025-05-01 00:17:44,285 - INFO - username inserted
+2025-05-01 00:17:44,370 - INFO - password inserted
+2025-05-01 00:17:44,474 - INFO - checkbox clicked
+2025-05-01 00:17:47,177 - ERROR - Login error: Message: 
+Stacktrace:
+	GetHandleVerifier [0x00D4C7F3+24435]
+	(No symbol) [0x00CD2074]
+	(No symbol) [0x00BA06E3]
+	(No symbol) [0x00BE8B39]
+	(No symbol) [0x00BE8E8B]
+	(No symbol) [0x00C31AC2]
+	(No symbol) [0x00C0D804]
+	(No symbol) [0x00C2F20A]
+	(No symbol) [0x00C0D5B6]
+	(No symbol) [0x00BDC54F]
+	(No symbol) [0x00BDD894]
+	GetHandleVerifier [0x010570A3+3213347]
+	GetHandleVerifier [0x0106B0C9+3295305]
+	GetHandleVerifier [0x0106558C+3271948]
+	GetHandleVerifier [0x00DE7360+658144]
+	(No symbol) [0x00CDB27D]
+	(No symbol) [0x00CD8208]
+	(No symbol) [0x00CD83A9]
+	(No symbol) [0x00CCAAC0]
+	BaseThreadInitThunk [0x756D5D49+25]
+	RtlInitializeExceptionChain [0x7765CF0B+107]
+	RtlGetAppContainerNamedObjectPath [0x7765CE91+561]
+
+2025-05-01 00:17:47,178 - ERROR - Failed to login to MyGrant
+2025-05-01 00:17:47,178 - INFO - MyGrant scraper completed in 13.73s
+2025-05-01 00:17:47,183 - INFO - 127.0.0.1 - - [01/May/2025 00:17:47] "GET /products/2000 HTTP/1.1" 200 -
+2025-05-01 00:17:47,927 - INFO - Processing part detail for FW02000
+2025-05-01 00:17:47,929 - INFO - Using direct URL: https://importglasscorp.com/glass/FW02000/
+2025-05-01 00:17:48,185 - INFO - crendential submitted
+2025-05-01 00:17:50,204 - INFO - successfully login
+2025-05-01 00:17:50,240 - INFO - Closed popup window
+2025-05-01 00:17:50,242 - INFO - Searching part in Pilkington: 2000
+2025-05-01 00:17:52,929 - INFO - Found available part: FW02000, $237.97, Opa-Locka
+2025-05-01 00:17:52,930 - INFO - Processing part detail for FD02000
+2025-05-01 00:17:52,930 - INFO - Using direct URL: https://importglasscorp.com/glass/FD02000/
+2025-05-01 00:17:52,984 - INFO - Closed popup window
+2025-05-01 00:17:54,178 - INFO - Processing part detail for WKTF2000
+2025-05-01 00:17:54,179 - INFO - Using direct URL: https://importglasscorp.com/glass/WKTF2000/
+2025-05-01 00:17:55,065 - INFO - Final results count: 1
+2025-05-01 00:17:55,066 - INFO - IGC scraper completed in 32.18s
+2025-05-01 00:17:58,039 - INFO - Location: Miami, FL.
+2025-05-01 00:17:58,118 - ERROR - Login error: Message: unknown error: net::ERR_CONNECTION_TIMED_OUT
+  (Session info: chrome=135.0.7049.115)
+Stacktrace:
+	GetHandleVerifier [0x00D4C7F3+24435]
+	(No symbol) [0x00CD2074]
+	(No symbol) [0x00BA06E3]
+	(No symbol) [0x00B9DB6E]
+	(No symbol) [0x00B91458]
+	(No symbol) [0x00B92D60]
+	(No symbol) [0x00B916E7]
+	(No symbol) [0x00B91243]
+	(No symbol) [0x00B90F51]
+	(No symbol) [0x00B8EE30]
+	(No symbol) [0x00B8F8BB]
+	(No symbol) [0x00BA419E]
+	(No symbol) [0x00C2FEE7]
+	(No symbol) [0x00C0D7BC]
+	(No symbol) [0x00C2F20A]
+	(No symbol) [0x00C0D5B6]
+	(No symbol) [0x00BDC54F]
+	(No symbol) [0x00BDD894]
+	GetHandleVerifier [0x010570A3+3213347]
+	GetHandleVerifier [0x0106B0C9+3295305]
+	GetHandleVerifier [0x0106558C+3271948]
+	GetHandleVerifier [0x00DE7360+658144]
+	(No symbol) [0x00CDB27D]
+	(No symbol) [0x00CD8208]
+	(No symbol) [0x00CD83A9]
+	(No symbol) [0x00CCAAC0]
+	BaseThreadInitThunk [0x756D5D49+25]
+	RtlInitializeExceptionChain [0x7765CF0B+107]
+	RtlGetAppContainerNamedObjectPath [0x7765CE91+561]
+
+2025-05-01 00:17:58,119 - ERROR - Error in searchPart: Message: unknown error: net::ERR_CONNECTION_TIMED_OUT
+  (Session info: chrome=135.0.7049.115)
+Stacktrace:
+	GetHandleVerifier [0x00D4C7F3+24435]
+	(No symbol) [0x00CD2074]
+	(No symbol) [0x00BA06E3]
+	(No symbol) [0x00B9DB6E]
+	(No symbol) [0x00B91458]
+	(No symbol) [0x00B92D60]
+	(No symbol) [0x00B916E7]
+	(No symbol) [0x00B91243]
+	(No symbol) [0x00B90F51]
+	(No symbol) [0x00B8EE30]
+	(No symbol) [0x00B8F8BB]
+	(No symbol) [0x00BA419E]
+	(No symbol) [0x00C2FEE7]
+	(No symbol) [0x00C0D7BC]
+	(No symbol) [0x00C2F20A]
+	(No symbol) [0x00C0D5B6]
+	(No symbol) [0x00BDC54F]
+	(No symbol) [0x00BDD894]
+	GetHandleVerifier [0x010570A3+3213347]
+	GetHandleVerifier [0x0106B0C9+3295305]
+	GetHandleVerifier [0x0106558C+3271948]
+	GetHandleVerifier [0x00DE7360+658144]
+	(No symbol) [0x00CDB27D]
+	(No symbol) [0x00CD8208]
+	(No symbol) [0x00CD83A9]
+	(No symbol) [0x00CCAAC0]
+	BaseThreadInitThunk [0x756D5D49+25]
+	RtlInitializeExceptionChain [0x7765CF0B+107]
+	RtlGetAppContainerNamedObjectPath [0x7765CE91+561]
+
+2025-05-01 00:17:58,120 - INFO - PGW scraper completed in 25.86s
+2025-05-01 00:17:59,107 - INFO - Found 24 parts for 2000
+2025-05-01 00:17:59,107 - INFO - Pilkington scraper completed in 26.24s
+2025-05-01 00:17:59,108 - INFO - All scrapers completed in 36.36s
+2025-05-01 00:37:06,651 - INFO -  * Detected change in 'c:\\Users\\Arsalan-Dev\\Desktop\\newdevelop\\Streamlit-PartsScraper\\Scrapers\\igc_scraper.py', reloading
+2025-05-01 00:37:23,080 - INFO -  * Restarting with stat
+2025-05-01 00:37:24,433 - WARNING -  * Debugger is active!
+2025-05-01 00:37:24,435 - INFO -  * Debugger PIN: 621-090-782
+2025-05-01 00:38:08,280 - INFO -  * Detected change in 'c:\\Users\\Arsalan-Dev\\Desktop\\newdevelop\\Streamlit-PartsScraper\\Scrapers\\mygrant_scraper.py', reloading
+2025-05-01 00:38:08,512 - INFO -  * Restarting with stat
+2025-05-01 00:38:09,802 - WARNING -  * Debugger is active!
+2025-05-01 00:38:09,805 - INFO -  * Debugger PIN: 621-090-782
+2025-05-01 00:38:10,859 - INFO -  * Detected change in 'c:\\Users\\Arsalan-Dev\\Desktop\\newdevelop\\Streamlit-PartsScraper\\Scrapers\\mygrant_scraper.py', reloading
+2025-05-01 00:38:11,047 - INFO -  * Restarting with stat
+2025-05-01 00:38:12,498 - WARNING -  * Debugger is active!
+2025-05-01 00:38:12,501 - INFO -  * Debugger PIN: 621-090-782
+2025-05-01 00:38:32,794 - INFO -  * Detected change in 'c:\\Users\\Arsalan-Dev\\Desktop\\newdevelop\\Streamlit-PartsScraper\\Scrapers\\pilkington_scraper.py', reloading
+2025-05-01 00:38:32,935 - INFO -  * Restarting with stat
+2025-05-01 00:38:34,218 - WARNING -  * Debugger is active!
+2025-05-01 00:38:34,221 - INFO -  * Debugger PIN: 621-090-782

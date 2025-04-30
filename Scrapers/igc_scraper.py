@@ -20,20 +20,18 @@ logger = logging.getLogger(__name__)
 # Global session variable
 _login_session = None
 
-
-def login(driver):
-    """Login to Import Glass Corp website with session management"""
+def login(driver, logger):
+    """Login to Buy PGW Auto Glass website with session management"""
     global _login_session
 
-    logger.info("Logging in to Import Glass Corp")
+    logger.info("Logging in to Buy PGW Auto Glass")
     load_dotenv()
-    username = os.getenv('IGC_USER')
-    password = os.getenv('IGC_PASS')
-    cn = os.getenv('IGC_CN')
+    username = os.getenv('PGW_USER')
+    password = os.getenv('PGW_PASS')
 
     try:
         # Make sure we're at the login page first
-        driver.get('https://importglasscorp.com')
+        driver.get('https://buypgwautoglass.com')
 
         # First check if we already have cookies from a previous login
         if _login_session is not None and len(_login_session) > 0:
@@ -46,9 +44,9 @@ def login(driver):
                     logger.warning(f"Failed to add cookie: {e}")
 
             # Try to navigate to a protected page to check if cookies work
-            driver.get('https://importglasscorp.com/product/search/')
+            driver.get('https://buypgwautoglass.com/PartSearch/search.asp')
             # If we're not redirected to login page, session is valid
-            if not driver.find_elements(By.ID, "email-address"):
+            if "PartSearch" in driver.current_url:
                 logger.info("Session cookies still valid")
                 return True
             else:
@@ -56,30 +54,37 @@ def login(driver):
                 _login_session = None
 
         # If no session or expired session, perform full login
-        wait = WebDriverWait(driver, 5)
-        driver.get('https://importglasscorp.com')
+        wait = WebDriverWait(driver, 10)
+        driver.get('https://buypgwautoglass.com')
 
         # Find and fill login form elements
         try:
-            email_field = wait.until(EC.presence_of_element_located((By.ID, 'email-address')))
-            cn_field = wait.until(EC.presence_of_element_located((By.ID, 'customer-number')))
-            pass_field = wait.until(EC.presence_of_element_located((By.ID, 'password')))
+            user_input = wait.until(EC.presence_of_element_located((By.ID, 'txtUsername')))
+            pass_input = wait.until(EC.presence_of_element_located((By.ID, 'txtPassword')))
 
             # Clear and fill inputs
-            email_field.clear()
-            cn_field.clear()
-            pass_field.clear()
+            user_input.clear()
+            pass_input.clear()
 
-            email_field.send_keys(username)
-            cn_field.send_keys(cn)
-            pass_field.send_keys(password)
+            user_input.send_keys(username)
+            pass_input.send_keys(password)
 
             # Submit form
-            submit_button = wait.until(EC.element_to_be_clickable((By.TAG_NAME, 'button')))
-            submit_button.click()
+            login_button = wait.until(EC.element_to_be_clickable((By.ID, 'button1')))
+            login_button.click()
 
             # Wait for login to complete
-            wait.until(EC.url_changes('https://importglasscorp.com'))
+            wait.until(EC.url_changes('https://buypgwautoglass.com'))
+            
+            # Handle any "I Agree" prompt that might appear
+            try:
+                agree_buttons = driver.find_elements(By.XPATH, 
+                                "//input[@value='I Agree'] | //button[contains(text(), 'Agree')]")
+                if agree_buttons and len(agree_buttons) > 0:
+                    agree_buttons[0].click()
+                    logger.info("Clicked 'I Agree' button")
+            except Exception as e:
+                logger.warning(f"Error handling agreement screen: {e}")
 
             # Save cookies for future use
             _login_session = driver.get_cookies()
@@ -93,7 +98,6 @@ def login(driver):
     except Exception as e:
         logger.error(f"Login error: {e}")
         return False
-
 
 def process_part_detail(driver, part_number):
     """Process a single part detail using direct URL"""

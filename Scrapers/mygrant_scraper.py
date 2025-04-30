@@ -10,70 +10,109 @@ from selenium.common.exceptions import TimeoutException, NoSuchElementException,
 # Global cookies storage
 _mygrant_cookies = None
 
-
 def login(driver, logger):
     """Login to MyGrant website with cookies persistence"""
     global _mygrant_cookies
 
     logger.info("Checking login status for MyGrant")
 
-    # Try using existing cookies if available
-    if _mygrant_cookies is not None and len(_mygrant_cookies) > 0:
-        logger.info("Attempting to use saved cookies")
-        driver.get('https://www.mygrantglass.com')
-
-        # Add saved cookies
-        for cookie in _mygrant_cookies:
-            try:
-                driver.add_cookie(cookie)
-            except Exception as e:
-                logger.warning(f"Failed to add cookie: {e}")
-
-        # Navigate to a protected page to verify login
-        driver.get('https://www.mygrantglass.com/pages/search.aspx')
-
-        # Check if we're still on the search page and not redirected to login
-        if 'login.aspx' not in driver.current_url:
-            logger.info("Login successful using cookies")
-            return True
-        else:
-            logger.info("Cookies expired, performing full login")
-
-    # Perform full login if no cookies or they've expired
-    logger.info("Performing full login to MyGrant")
-    load_dotenv()
-    username = os.getenv('MYGRANT_USER')
-    password = os.getenv('MYGRANT_PASS')
-
     try:
-        driver.get('https://www.mygrantglass.com/pages/login.aspx')
-        wait = WebDriverWait(driver, 10)
+        # Try using existing cookies if available
+        if _mygrant_cookies is not None and len(_mygrant_cookies) > 0:
+            logger.info(f"Attempting to use {len(_mygrant_cookies)} saved cookies")
+            
+            # First navigate to base domain
+            driver.get('https://www.mygrantglass.com')
+            time.sleep(1)  # Allow page to load
+            
+            # Add saved cookies
+            cookie_success = True
+            for cookie in _mygrant_cookies:
+                try:
+                    driver.add_cookie(cookie)
+                except Exception as e:
+                    logger.warning(f"Failed to add cookie: {e}")
+                    cookie_success = False
+                    
+            if not cookie_success:
+                logger.info("Some cookies failed to load, will perform full login")
+                _mygrant_cookies = None
+            else:
+                # Navigate to a protected page to verify login
+                driver.get('https://www.mygrantglass.com/pages/search.aspx')
+                time.sleep(2)  # Wait for redirect if not logged in
+                
+                # Check if we're still on the search page and not redirected to login
+                if 'login.aspx' not in driver.current_url:
+                    logger.info("Login successful using cookies")
+                    return True
+                else:
+                    logger.info("Cookies expired, performing full login")
+                    _mygrant_cookies = None
 
-        # Wait until username field is visible and enter username
-        username_field = wait.until(EC.visibility_of_element_located((By.ID, "clogin_TxtUsername")))
-        username_field.clear()
-        username_field.send_keys(username)
-
-        # Wait until password field is visible and enter password
-        password_field = wait.until(EC.visibility_of_element_located((By.ID, "clogin_TxtPassword")))
-        password_field.clear()
-        password_field.send_keys(password)
-
-        # Wait until login button is clickable and click it
-        login_button = wait.until(EC.element_to_be_clickable((By.ID, "clogin_ButtonLogin")))
-        login_button.click()
-
-        # Wait for redirect after login
-        wait.until(EC.url_changes('https://www.mygrantglass.com/pages/login.aspx'))
-
-        # Save cookies for future use
-        _mygrant_cookies = driver.get_cookies()
-        logger.info(f"Login successful - saved {len(_mygrant_cookies)} cookies")
-        return True
-
+        # Perform full login if no cookies or they've expired
+        if _mygrant_cookies is None:
+            logger.info("Performing full login to MyGrant")
+            load_dotenv()
+            username = os.getenv('MYGRANT_USER')
+            password = os.getenv('MYGRANT_PASS')
+            
+            if not username or not password:
+                logger.error("MyGrant credentials not found in environment variables")
+                return False
+                
+            try:
+                # Navigate to login page
+                driver.get('https://www.mygrantglass.com/pages/login.aspx')
+                wait = WebDriverWait(driver, 10)
+                
+                # Wait until username field is visible and enter username
+                username_field = wait.until(EC.visibility_of_element_located((By.ID, "clogin_TxtUsername")))
+                username_field.clear()
+                username_field.send_keys(username)
+                
+                # Wait until password field is visible and enter password
+                password_field = wait.until(EC.visibility_of_element_located((By.ID, "clogin_TxtPassword")))
+                password_field.clear()
+                password_field.send_keys(password)
+                
+                # Wait until login button is clickable and click it
+                login_button = wait.until(EC.element_to_be_clickable((By.ID, "clogin_ButtonLogin")))
+                login_button.click()
+                
+                # Wait for redirect after login
+                try:
+                    wait.until(EC.url_changes('https://www.mygrantglass.com/pages/login.aspx'))
+                    time.sleep(2)  # Additional wait to ensure redirect completes
+                    
+                    # Verify login success by checking URL
+                    if 'login.aspx' not in driver.current_url:
+                        # Save cookies for future use
+                        _mygrant_cookies = driver.get_cookies()
+                        logger.info(f"Login successful - saved {len(_mygrant_cookies)} cookies")
+                        return True
+                    else:
+                        logger.error("Login failed - still on login page after submission")
+                        return False
+                except:
+                    # If we get a timeout, check URL directly
+                    if 'login.aspx' not in driver.current_url:
+                        # Save cookies for future use
+                        _mygrant_cookies = driver.get_cookies()
+                        logger.info(f"Login successful (detected from URL) - saved {len(_mygrant_cookies)} cookies")
+                        return True
+                    else:
+                        logger.error("Login failed - timeout waiting for redirect")
+                        return False
+                
+            except Exception as e:
+                logger.error(f"Login form error: {e}")
+                return False
     except Exception as e:
         logger.error(f"Login error: {e}")
         return False
+        
+    return False  # Default return if all methods fail
 
 
 def MyGrantScraper(partNo, driver, logger):
