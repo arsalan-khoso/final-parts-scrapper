@@ -236,9 +236,9 @@
             const inputContainer = document.getElementById('input-container');
             const inputLabel = document.getElementById('input-label');
             const searchInput = document.getElementById('search-input');
-
+    
             if (selectedMethod === 'vehicle-type') {
-                window.location.href = 'http://127.0.0.1:2211/vehicle-lookup';
+                window.location.href = '/vehicle-lookup';
             } else if (selectedMethod === 'part-number') {
                 inputContainer.style.display = 'block';
                 inputLabel.textContent = 'Enter Part Number:';
@@ -251,15 +251,15 @@
                 inputContainer.style.display = 'none';
             }
         });
-
+    
         document.getElementById('search-button').addEventListener('click', function() {
             const selectedMethod = document.getElementById('search-method').value;
             const searchInput = document.getElementById('search-input').value;
-
+    
             if (selectedMethod === 'part-number' && searchInput) {
-                window.location.href = `http://127.0.0.1:2211/part-search/${searchInput}`;
+                window.location.href = `/part-search/${searchInput}`;
             } else if (selectedMethod === 'vin-number' && searchInput) {
-                window.location.href = `http://127.0.0.1:2211/vin-search/${searchInput}`;
+                window.location.href = `/vin-search/${searchInput}`;
             }
         });
     </script>

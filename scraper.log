@@ -615,3 +615,279 @@ Stacktrace:
 2025-05-01 00:52:07,825 - INFO -  * Debugger PIN: 621-090-782
 2025-05-01 00:52:09,881 - INFO -  * Detected change in 'c:\\Users\\Arsalan-Dev\\Desktop\\newdevelop\\Streamlit-PartsScraper\\Scrapers\\pwg_scraper.py', reloading
 2025-05-01 00:52:10,028 - INFO -  * Restarting with stat
+2025-05-01 00:52:11,163 - WARNING -  * Debugger is active!
+2025-05-01 00:52:11,165 - INFO -  * Debugger PIN: 621-090-782
+2025-05-01 03:11:49,710 - INFO - 127.0.0.1 - - [01/May/2025 03:11:49] "[32mGET /part-search/2000 HTTP/1.1[0m" 302 -
+2025-05-01 03:11:49,766 - INFO - 127.0.0.1 - - [01/May/2025 03:11:49] "GET /login?next=/part-search/2000 HTTP/1.1" 200 -
+2025-05-01 03:11:51,017 - INFO - 127.0.0.1 - - [01/May/2025 03:11:51] "[32mPOST /login?next=/part-search/2000 HTTP/1.1[0m" 302 -
+2025-05-01 03:11:51,146 - INFO - 127.0.0.1 - - [01/May/2025 03:11:51] "GET / HTTP/1.1" 200 -
+2025-05-01 03:11:54,540 - INFO - 127.0.0.1 - - [01/May/2025 03:11:54] "GET /part-search/2000 HTTP/1.1" 200 -
+2025-05-01 03:12:03,332 - INFO - patching driver executable C:\Users\Arsalan-Dev\appdata\roaming\undetected_chromedriver\undetected_chromedriver.exe
+2025-05-01 03:12:07,713 - INFO - Chrome driver set up in 12.95s
+2025-05-01 03:12:07,714 - INFO - Searching part in IGC: 2000
+2025-05-01 03:12:07,715 - INFO - Searching part in IGC: 2000
+2025-05-01 03:12:07,716 - INFO - Logging in to Import Glass Corp
+2025-05-01 03:12:08,348 - INFO - Chrome driver set up in 0.63s
+2025-05-01 03:12:08,349 - INFO - Searching part in PGW: 2000
+2025-05-01 03:12:08,373 - INFO - Not on search page, attempting to login first
+2025-05-01 03:12:08,374 - INFO - Logging in to Buy PGW Auto Glass
+2025-05-01 03:12:09,081 - INFO - Chrome driver set up in 0.73s
+2025-05-01 03:12:09,089 - INFO - Searching part in Pilkington: 2000
+2025-05-01 03:12:09,767 - INFO - Chrome driver set up in 0.67s
+2025-05-01 03:12:09,768 - INFO - Searching part in MyGrant: 2000
+2025-05-01 03:12:09,768 - INFO - Checking login status for MyGrant
+2025-05-01 03:12:09,769 - INFO - Performing full login to MyGrant
+2025-05-01 03:12:18,823 - INFO - Logging form - trying to login
+2025-05-01 03:12:21,963 - INFO - Login successful - saved 3 cookies
+2025-05-01 03:12:22,999 - ERROR - Login error: Message: 
+Stacktrace:
+	GetHandleVerifier [0x008DC7F3+24435]
+	(No symbol) [0x00862074]
+	(No symbol) [0x007306E3]
+	(No symbol) [0x00778B39]
+	(No symbol) [0x00778E8B]
+	(No symbol) [0x007C1AC2]
+	(No symbol) [0x0079D804]
+	(No symbol) [0x007BF20A]
+	(No symbol) [0x0079D5B6]
+	(No symbol) [0x0076C54F]
+	(No symbol) [0x0076D894]
+	GetHandleVerifier [0x00BE70A3+3213347]
+	GetHandleVerifier [0x00BFB0C9+3295305]
+	GetHandleVerifier [0x00BF558C+3271948]
+	GetHandleVerifier [0x00977360+658144]
+	(No symbol) [0x0086B27D]
+	(No symbol) [0x00868208]
+	(No symbol) [0x008683A9]
+	(No symbol) [0x0085AAC0]
+	BaseThreadInitThunk [0x756D5D49+25]
+	RtlInitializeExceptionChain [0x7765CF0B+107]
+	RtlGetAppContainerNamedObjectPath [0x7765CE91+561]
+
+2025-05-01 03:12:22,999 - ERROR - Failed to login to MyGrant
+2025-05-01 03:12:23,000 - INFO - MyGrant scraper completed in 13.90s
+2025-05-01 03:12:23,028 - INFO - 127.0.0.1 - - [01/May/2025 03:12:23] "GET /products/2000 HTTP/1.1" 200 -
+2025-05-01 03:12:23,049 - INFO - username inserted
+2025-05-01 03:12:23,166 - INFO - password inserted
+2025-05-01 03:12:23,287 - INFO - checkbox clicked
+2025-05-01 03:12:23,471 - INFO - crendential submitted
+2025-05-01 03:12:29,967 - INFO - Search submitted, waiting for results...
+2025-05-01 03:12:31,349 - INFO - successfully login
+2025-05-01 03:12:31,376 - INFO - Closed popup window
+2025-05-01 03:12:31,376 - INFO - Searching part in Pilkington: 2000
+2025-05-01 03:12:32,733 - INFO - Found 4 matching part numbers
+2025-05-01 03:12:32,733 - INFO - Processing part detail for DW02000
+2025-05-01 03:12:32,734 - INFO - Using direct URL: https://importglasscorp.com/glass/DW02000/
+2025-05-01 03:12:34,686 - INFO - Closed popup window
+2025-05-01 03:12:35,759 - ERROR - Login error: Message: unknown error: net::ERR_CONNECTION_TIMED_OUT
+  (Session info: chrome=135.0.7049.115)
+Stacktrace:
+	GetHandleVerifier [0x008DC7F3+24435]
+	(No symbol) [0x00862074]
+	(No symbol) [0x007306E3]
+	(No symbol) [0x0072DB6E]
+	(No symbol) [0x00721458]
+	(No symbol) [0x00722D60]
+	(No symbol) [0x007216E7]
+	(No symbol) [0x00721243]
+	(No symbol) [0x00720F51]
+	(No symbol) [0x0071EE30]
+	(No symbol) [0x0071F8BB]
+	(No symbol) [0x0073419E]
+	(No symbol) [0x007BFEE7]
+	(No symbol) [0x0079D7BC]
+	(No symbol) [0x007BF20A]
+	(No symbol) [0x0079D5B6]
+	(No symbol) [0x0076C54F]
+	(No symbol) [0x0076D894]
+	GetHandleVerifier [0x00BE70A3+3213347]
+	GetHandleVerifier [0x00BFB0C9+3295305]
+	GetHandleVerifier [0x00BF558C+3271948]
+	GetHandleVerifier [0x00977360+658144]
+	(No symbol) [0x0086B27D]
+	(No symbol) [0x00868208]
+	(No symbol) [0x008683A9]
+	(No symbol) [0x0085AAC0]
+	BaseThreadInitThunk [0x756D5D49+25]
+	RtlInitializeExceptionChain [0x7765CF0B+107]
+	RtlGetAppContainerNamedObjectPath [0x7765CE91+561]
+
+2025-05-01 03:12:35,760 - ERROR - Error in searchPart: Message: unknown error: net::ERR_CONNECTION_TIMED_OUT
+  (Session info: chrome=135.0.7049.115)
+Stacktrace:
+	GetHandleVerifier [0x008DC7F3+24435]
+	(No symbol) [0x00862074]
+	(No symbol) [0x007306E3]
+	(No symbol) [0x0072DB6E]
+	(No symbol) [0x00721458]
+	(No symbol) [0x00722D60]
+	(No symbol) [0x007216E7]
+	(No symbol) [0x00721243]
+	(No symbol) [0x00720F51]
+	(No symbol) [0x0071EE30]
+	(No symbol) [0x0071F8BB]
+	(No symbol) [0x0073419E]
+	(No symbol) [0x007BFEE7]
+	(No symbol) [0x0079D7BC]
+	(No symbol) [0x007BF20A]
+	(No symbol) [0x0079D5B6]
+	(No symbol) [0x0076C54F]
+	(No symbol) [0x0076D894]
+	GetHandleVerifier [0x00BE70A3+3213347]
+	GetHandleVerifier [0x00BFB0C9+3295305]
+	GetHandleVerifier [0x00BF558C+3271948]
+	GetHandleVerifier [0x00977360+658144]
+	(No symbol) [0x0086B27D]
+	(No symbol) [0x00868208]
+	(No symbol) [0x008683A9]
+	(No symbol) [0x0085AAC0]
+	BaseThreadInitThunk [0x756D5D49+25]
+	RtlInitializeExceptionChain [0x7765CF0B+107]
+	RtlGetAppContainerNamedObjectPath [0x7765CE91+561]
+
+2025-05-01 03:12:35,761 - INFO - PGW scraper completed in 28.05s
+2025-05-01 03:12:39,546 - INFO - Processing part detail for FW02000
+2025-05-01 03:12:39,547 - INFO - Using direct URL: https://importglasscorp.com/glass/FW02000/
+2025-05-01 03:12:39,851 - INFO - Location: Miami, FL.
+2025-05-01 03:12:41,701 - INFO - Found 24 parts for 2000
+2025-05-01 03:12:41,702 - INFO - Pilkington scraper completed in 33.35s
+2025-05-01 03:12:49,969 - INFO - Found available part: FW02000, $237.97, Opa-Locka
+2025-05-01 03:12:49,969 - INFO - Processing part detail for FD02000
+2025-05-01 03:12:49,970 - INFO - Using direct URL: https://importglasscorp.com/glass/FD02000/
+2025-05-01 03:12:52,538 - INFO - Processing part detail for WKTF2000
+2025-05-01 03:12:52,538 - INFO - Using direct URL: https://importglasscorp.com/glass/WKTF2000/
+2025-05-01 03:12:54,858 - INFO - Final results count: 1
+2025-05-01 03:12:54,859 - INFO - IGC scraper completed in 60.10s
+2025-05-01 03:12:54,861 - INFO - All scrapers completed in 60.29s
+2025-05-01 03:13:42,129 - INFO - 127.0.0.1 - - [01/May/2025 03:13:42] "GET /part-search/2000 HTTP/1.1" 200 -
+2025-05-01 03:13:49,047 - INFO - patching driver executable C:\Users\Arsalan-Dev\appdata\roaming\undetected_chromedriver\undetected_chromedriver.exe
+2025-05-01 03:13:52,194 - INFO - Chrome driver set up in 10.02s
+2025-05-01 03:13:52,194 - INFO - Searching part in IGC: 2000
+2025-05-01 03:13:52,195 - INFO - Searching part in IGC: 2000
+2025-05-01 03:13:52,196 - INFO - Logging in to Import Glass Corp
+2025-05-01 03:13:52,802 - INFO - Chrome driver set up in 0.61s
+2025-05-01 03:13:52,802 - INFO - Searching part in PGW: 2000
+2025-05-01 03:13:52,860 - INFO - Not on search page, attempting to login first
+2025-05-01 03:13:52,861 - INFO - Logging in to Buy PGW Auto Glass
+2025-05-01 03:13:53,435 - INFO - Chrome driver set up in 0.63s
+2025-05-01 03:13:53,435 - INFO - Searching part in Pilkington: 2000
+2025-05-01 03:13:54,234 - INFO - Chrome driver set up in 0.79s
+2025-05-01 03:13:54,235 - INFO - Searching part in MyGrant: 2000
+2025-05-01 03:13:54,236 - INFO - Checking login status for MyGrant
+2025-05-01 03:13:54,236 - INFO - Performing full login to MyGrant
+2025-05-01 03:14:00,413 - INFO - Using existing session cookies
+2025-05-01 03:14:01,484 - INFO - Session cookies expired, logging in again
+2025-05-01 03:14:05,246 - INFO - Login successful - saved 4 cookies
+2025-05-01 03:14:07,769 - ERROR - Login error: Message: 
+Stacktrace:
+	GetHandleVerifier [0x0083C7F3+24435]
+	(No symbol) [0x007C2074]
+	(No symbol) [0x006906E3]
+	(No symbol) [0x006D8B39]
+	(No symbol) [0x006D8E8B]
+	(No symbol) [0x00721AC2]
+	(No symbol) [0x006FD804]
+	(No symbol) [0x0071F20A]
+	(No symbol) [0x006FD5B6]
+	(No symbol) [0x006CC54F]
+	(No symbol) [0x006CD894]
+	GetHandleVerifier [0x00B470A3+3213347]
+	GetHandleVerifier [0x00B5B0C9+3295305]
+	GetHandleVerifier [0x00B5558C+3271948]
+	GetHandleVerifier [0x008D7360+658144]
+	(No symbol) [0x007CB27D]
+	(No symbol) [0x007C8208]
+	(No symbol) [0x007C83A9]
+	(No symbol) [0x007BAAC0]
+	BaseThreadInitThunk [0x756D5D49+25]
+	RtlInitializeExceptionChain [0x7765CF0B+107]
+	RtlGetAppContainerNamedObjectPath [0x7765CE91+561]
+
+2025-05-01 03:14:07,769 - ERROR - Failed to login to MyGrant
+2025-05-01 03:14:07,771 - INFO - MyGrant scraper completed in 14.33s
+2025-05-01 03:14:07,779 - INFO - 127.0.0.1 - - [01/May/2025 03:14:07] "GET /products/2000 HTTP/1.1" 200 -
+2025-05-01 03:14:12,730 - INFO - Search submitted, waiting for results...
+2025-05-01 03:14:14,391 - ERROR - Login error: Message: unknown error: net::ERR_CONNECTION_TIMED_OUT
+  (Session info: chrome=135.0.7049.115)
+Stacktrace:
+	GetHandleVerifier [0x0083C7F3+24435]
+	(No symbol) [0x007C2074]
+	(No symbol) [0x006906E3]
+	(No symbol) [0x0068DB6E]
+	(No symbol) [0x00681458]
+	(No symbol) [0x00682D60]
+	(No symbol) [0x006816E7]
+	(No symbol) [0x00681243]
+	(No symbol) [0x00680F51]
+	(No symbol) [0x0067EE30]
+	(No symbol) [0x0067F8BB]
+	(No symbol) [0x0069419E]
+	(No symbol) [0x0071FEE7]
+	(No symbol) [0x006FD7BC]
+	(No symbol) [0x0071F20A]
+	(No symbol) [0x006FD5B6]
+	(No symbol) [0x006CC54F]
+	(No symbol) [0x006CD894]
+	GetHandleVerifier [0x00B470A3+3213347]
+	GetHandleVerifier [0x00B5B0C9+3295305]
+	GetHandleVerifier [0x00B5558C+3271948]
+	GetHandleVerifier [0x008D7360+658144]
+	(No symbol) [0x007CB27D]
+	(No symbol) [0x007C8208]
+	(No symbol) [0x007C83A9]
+	(No symbol) [0x007BAAC0]
+	BaseThreadInitThunk [0x756D5D49+25]
+	RtlInitializeExceptionChain [0x7765CF0B+107]
+	RtlGetAppContainerNamedObjectPath [0x7765CE91+561]
+
+2025-05-01 03:14:14,392 - ERROR - Error in searchPart: Message: unknown error: net::ERR_CONNECTION_TIMED_OUT
+  (Session info: chrome=135.0.7049.115)
+Stacktrace:
+	GetHandleVerifier [0x0083C7F3+24435]
+	(No symbol) [0x007C2074]
+	(No symbol) [0x006906E3]
+	(No symbol) [0x0068DB6E]
+	(No symbol) [0x00681458]
+	(No symbol) [0x00682D60]
+	(No symbol) [0x006816E7]
+	(No symbol) [0x00681243]
+	(No symbol) [0x00680F51]
+	(No symbol) [0x0067EE30]
+	(No symbol) [0x0067F8BB]
+	(No symbol) [0x0069419E]
+	(No symbol) [0x0071FEE7]
+	(No symbol) [0x006FD7BC]
+	(No symbol) [0x0071F20A]
+	(No symbol) [0x006FD5B6]
+	(No symbol) [0x006CC54F]
+	(No symbol) [0x006CD894]
+	GetHandleVerifier [0x00B470A3+3213347]
+	GetHandleVerifier [0x00B5B0C9+3295305]
+	GetHandleVerifier [0x00B5558C+3271948]
+	GetHandleVerifier [0x008D7360+658144]
+	(No symbol) [0x007CB27D]
+	(No symbol) [0x007C8208]
+	(No symbol) [0x007C83A9]
+	(No symbol) [0x007BAAC0]
+	BaseThreadInitThunk [0x756D5D49+25]
+	RtlInitializeExceptionChain [0x7765CF0B+107]
+	RtlGetAppContainerNamedObjectPath [0x7765CE91+561]
+
+2025-05-01 03:14:14,393 - INFO - PGW scraper completed in 22.20s
+2025-05-01 03:14:14,480 - INFO - Found 4 matching part numbers
+2025-05-01 03:14:14,480 - INFO - Processing part detail for DW02000
+2025-05-01 03:14:14,480 - INFO - Using direct URL: https://importglasscorp.com/glass/DW02000/
+2025-05-01 03:14:16,556 - INFO - 127.0.0.1 - - [01/May/2025 03:14:16] "[32mGET /logout HTTP/1.1[0m" 302 -
+2025-05-01 03:14:16,565 - INFO - 127.0.0.1 - - [01/May/2025 03:14:16] "GET /login HTTP/1.1" 200 -
+2025-05-01 03:14:23,194 - INFO - Logging form - trying to login
+2025-05-01 03:14:23,910 - INFO - Processing part detail for FW02000
+2025-05-01 03:14:23,911 - INFO - Using direct URL: https://importglasscorp.com/glass/FW02000/
+2025-05-01 03:14:28,716 - INFO - username inserted
+2025-05-01 03:14:28,803 - INFO - password inserted
+2025-05-01 03:14:28,923 - INFO - checkbox clicked
+2025-05-01 03:14:29,048 - INFO - crendential submitted
+2025-05-01 03:14:32,561 - INFO - Found available part: FW02000, $237.97, Opa-Locka
+2025-05-01 03:14:32,561 - INFO - Processing part detail for FD02000
+2025-05-01 03:14:32,562 - INFO - Using direct URL: https://importglasscorp.com/glass/FD02000/
+2025-05-01 03:14:33,140 - ERROR - Error in Pilkington scraper: ('Connection aborted.', ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None))
+2025-05-01 03:14:33,143 - INFO - Pilkington scraper completed in 40.34s
