@@ -581,3 +581,17 @@ Stacktrace:
 2025-05-01 00:38:32,935 - INFO -  * Restarting with stat
 2025-05-01 00:38:34,218 - WARNING -  * Debugger is active!
 2025-05-01 00:38:34,221 - INFO -  * Debugger PIN: 621-090-782
+2025-05-01 00:45:05,956 - INFO -  * Detected change in 'c:\\Users\\Arsalan-Dev\\Desktop\\newdevelop\\Streamlit-PartsScraper\\Scrapers\\igc_scraper.py', reloading
+2025-05-01 00:45:06,091 - INFO -  * Restarting with stat
+2025-05-01 00:45:07,618 - WARNING -  * Debugger is active!
+2025-05-01 00:45:07,622 - INFO -  * Debugger PIN: 621-090-782
+2025-05-01 00:45:40,336 - INFO -  * Detected change in 'c:\\Users\\Arsalan-Dev\\Desktop\\newdevelop\\Streamlit-PartsScraper\\Scrapers\\pilkington_scraper.py', reloading
+2025-05-01 00:45:40,576 - INFO -  * Restarting with stat
+2025-05-01 00:45:42,058 - WARNING -  * Debugger is active!
+2025-05-01 00:45:42,061 - INFO -  * Debugger PIN: 621-090-782
+2025-05-01 00:47:49,655 - INFO -  * Detected change in 'c:\\Users\\Arsalan-Dev\\Desktop\\newdevelop\\Streamlit-PartsScraper\\Scrapers\\mygrant_scraper.py', reloading
+2025-05-01 00:47:49,783 - INFO -  * Restarting with stat
+2025-05-01 00:47:51,350 - WARNING -  * Debugger is active!
+2025-05-01 00:47:51,352 - INFO -  * Debugger PIN: 621-090-782
+2025-05-01 00:49:09,956 - INFO -  * Detected change in 'c:\\Users\\Arsalan-Dev\\Desktop\\newdevelop\\Streamlit-PartsScraper\\Scrapers\\pwg_scraper.py', reloading
+2025-05-01 00:49:10,106 - INFO -  * Restarting with stat

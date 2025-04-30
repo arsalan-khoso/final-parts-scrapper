@@ -1,213 +1,253 @@
-from bs4 import BeautifulSoup
 import os
 import time
-from dotenv import load_dotenv
-from selenium.webdriver.support.ui import WebDriverWait
+import logging
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException, NoSuchElementException, StaleElementReferenceException
+from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import TimeoutException, NoSuchElementException
+from dotenv import load_dotenv
 
-# Global cookies storage
-_mygrant_cookies = None
-
-def login(driver, logger):
-    """Login to MyGrant website with cookies persistence"""
-    global _mygrant_cookies
-
+def login_mygrant(driver, logger):
+    """Login to MyGrant Auto Glass website"""
     logger.info("Checking login status for MyGrant")
+    
+    # Load environment variables
+    load_dotenv()
+    username = os.getenv('MYGRANT_USER')
+    password = os.getenv('MYGRANT_PASS')
+    
+    # Check if credentials are available
+    if not username or not password:
+        logger.error("MyGrant credentials not found in environment variables")
+        return False
 
     try:
-        # Try using existing cookies if available
-        if _mygrant_cookies is not None and len(_mygrant_cookies) > 0:
-            logger.info(f"Attempting to use {len(_mygrant_cookies)} saved cookies")
-            
-            # First navigate to base domain
-            driver.get('https://www.mygrantglass.com')
-            time.sleep(1)  # Allow page to load
-            
-            # Add saved cookies
-            cookie_success = True
-            for cookie in _mygrant_cookies:
-                try:
-                    driver.add_cookie(cookie)
-                except Exception as e:
-                    logger.warning(f"Failed to add cookie: {e}")
-                    cookie_success = False
-                    
-            if not cookie_success:
-                logger.info("Some cookies failed to load, will perform full login")
-                _mygrant_cookies = None
-            else:
-                # Navigate to a protected page to verify login
-                driver.get('https://www.mygrantglass.com/pages/search.aspx')
-                time.sleep(2)  # Wait for redirect if not logged in
-                
-                # Check if we're still on the search page and not redirected to login
-                if 'login.aspx' not in driver.current_url:
-                    logger.info("Login successful using cookies")
-                    return True
-                else:
-                    logger.info("Cookies expired, performing full login")
-                    _mygrant_cookies = None
-
-        # Perform full login if no cookies or they've expired
-        if _mygrant_cookies is None:
-            logger.info("Performing full login to MyGrant")
-            load_dotenv()
-            username = os.getenv('MYGRANT_USER')
-            password = os.getenv('MYGRANT_PASS')
-            
-            if not username or not password:
-                logger.error("MyGrant credentials not found in environment variables")
-                return False
-                
-            try:
-                # Navigate to login page
-                driver.get('https://www.mygrantglass.com/pages/login.aspx')
-                wait = WebDriverWait(driver, 10)
-                
-                # Wait until username field is visible and enter username
-                username_field = wait.until(EC.visibility_of_element_located((By.ID, "clogin_TxtUsername")))
-                username_field.clear()
-                username_field.send_keys(username)
-                
-                # Wait until password field is visible and enter password
-                password_field = wait.until(EC.visibility_of_element_located((By.ID, "clogin_TxtPassword")))
-                password_field.clear()
-                password_field.send_keys(password)
-                
-                # Wait until login button is clickable and click it
-                login_button = wait.until(EC.element_to_be_clickable((By.ID, "clogin_ButtonLogin")))
-                login_button.click()
-                
-                # Wait for redirect after login
-                try:
-                    wait.until(EC.url_changes('https://www.mygrantglass.com/pages/login.aspx'))
-                    time.sleep(2)  # Additional wait to ensure redirect completes
-                    
-                    # Verify login success by checking URL
-                    if 'login.aspx' not in driver.current_url:
-                        # Save cookies for future use
-                        _mygrant_cookies = driver.get_cookies()
-                        logger.info(f"Login successful - saved {len(_mygrant_cookies)} cookies")
-                        return True
-                    else:
-                        logger.error("Login failed - still on login page after submission")
-                        return False
-                except:
-                    # If we get a timeout, check URL directly
-                    if 'login.aspx' not in driver.current_url:
-                        # Save cookies for future use
-                        _mygrant_cookies = driver.get_cookies()
-                        logger.info(f"Login successful (detected from URL) - saved {len(_mygrant_cookies)} cookies")
-                        return True
-                    else:
-                        logger.error("Login failed - timeout waiting for redirect")
-                        return False
-                
-            except Exception as e:
-                logger.error(f"Login form error: {e}")
-                return False
-    except Exception as e:
-        logger.error(f"Login error: {e}")
-        return False
+        # Go to the login page
+        driver.get('https://www.mygrantonline.com/')
         
-    return False  # Default return if all methods fail
-
+        # Check if already logged in by looking for sign out link
+        try:
+            signout_elements = driver.find_elements(By.XPATH, "//a[contains(text(), 'Sign Out') or contains(text(), 'Log Out')]")
+            if signout_elements:
+                logger.info("Already logged in to MyGrant")
+                return True
+        except:
+            pass
+        
+        # If not already logged in, perform login
+        logger.info("Performing full login to MyGrant")
+        wait = WebDriverWait(driver, 10)
+        
+        # Enter username
+        try:
+            username_field = wait.until(EC.presence_of_element_located((By.ID, "ctl00_txtLogin")))
+            username_field.clear()
+            username_field.send_keys(username)
+        except Exception as e:
+            logger.error(f"Error finding username field: {e}")
+            return False
+        
+        # Enter password
+        try:
+            password_field = wait.until(EC.presence_of_element_located((By.ID, "ctl00_txtPassword")))
+            password_field.clear()
+            password_field.send_keys(password)
+        except Exception as e:
+            logger.error(f"Error finding password field: {e}")
+            return False
+        
+        # Click login button
+        try:
+            login_button = wait.until(EC.element_to_be_clickable((By.ID, "ctl00_btnLogin")))
+            login_button.click()
+        except Exception as e:
+            logger.error(f"Error clicking login button: {e}")
+            return False
+        
+        # Check if login successful by looking for elements that indicate logged-in status
+        try:
+            # Wait for a common element that appears after login
+            wait.until(EC.presence_of_element_located((By.XPATH, "//a[contains(text(), 'Sign Out')] | //a[contains(text(), 'Log Out')] | //a[contains(text(), 'My Account')]")))
+            logger.info("Successfully logged in to MyGrant")
+            return True
+        except TimeoutException:
+            # Check for error messages
+            error_elements = driver.find_elements(By.XPATH, "//div[contains(@class, 'error')] | //span[contains(@class, 'error')]")
+            if error_elements:
+                for error in error_elements:
+                    logger.error(f"Login error message: {error.text}")
+            else:
+                logger.error("Login failed but no error message found")
+            return False
+    
+    except Exception as e:
+        logger.error(f"Failed to login to MyGrant: {e}")
+        return False
 
 def MyGrantScraper(partNo, driver, logger):
-    """Optimized scraper for MyGrant using list comprehensions and improved error handling"""
+    """Scrape part information from MyGrant website"""
+    logger.info(f"Searching part in MyGrant: {partNo}")
+    
+    # Default part data if nothing is found
+    default_parts = [["Not Found", "Not Found", "Not Found", "Not Found"]]
+    
     try:
-        # Ensure login first
-        if not login(driver, logger):
+        # First make sure we're logged in
+        login_successful = login_mygrant(driver, logger)
+        if not login_successful:
             logger.error("Failed to login to MyGrant")
-            return []
-
-        # URL for part search
-        url = f'https://www.mygrantglass.com/pages/search.aspx?q={partNo}&sc=r&do=Search'
-        logger.info(f"Searching for part in MyGrant: {partNo}")
-        driver.get(url)
-
-        # Wait for page to load with 10-second timeout
+            return default_parts
+        
+        # Navigate to search page
+        driver.get('https://www.mygrantonline.com/')
+        
+        # Find and use the search box
         wait = WebDriverWait(driver, 10)
-
-        # Wait for either results div or "no results" message
-        wait.until(EC.presence_of_element_located(
-            (By.XPATH, "//div[@id='cpsr_DivParts'] | //div[contains(text(), 'No results')]")))
-
-        # Check for "no results" message
-        if driver.find_elements(By.XPATH, "//div[contains(text(), 'No results')]"):
-            logger.info(f"No results found for part {partNo}")
-            return []
-
-        # Find locations (h3 elements) - skip the first one as it's the header
-        locations = driver.find_elements(By.XPATH, "//div[@id='cpsr_DivParts']/h3")
-        if not locations or len(locations) <= 1:
-            logger.info(f"No location headers found for part {partNo}")
-            return []
-
-        # Skip the first h3 as it's usually just the page title
-        locations = locations[1:]
-
-        # Process all locations and extract parts using list comprehension
-        parts = []
-
-        for location_elem in locations:
+        try:
+            # Look for search box - try different possible IDs or XPaths
+            search_box_selectors = [
+                "//input[contains(@id, 'txtSearch')]",
+                "//input[contains(@id, 'search')]",
+                "//input[contains(@placeholder, 'Search')]"
+            ]
+            
+            search_box = None
+            for selector in search_box_selectors:
+                try:
+                    search_box = driver.find_element(By.XPATH, selector)
+                    if search_box:
+                        break
+                except:
+                    continue
+            
+            if not search_box:
+                logger.error("Could not find search box")
+                return default_parts
+            
+            # Clear and enter part number
+            search_box.clear()
+            search_box.send_keys(partNo)
+            search_box.send_keys(Keys.RETURN)
+            
+            # Wait for results page to load
+            time.sleep(3)
+            
+            # Check for no results message
+            no_results_elements = driver.find_elements(By.XPATH, "//div[contains(text(), 'No results')] | //p[contains(text(), 'No results')]")
+            if no_results_elements:
+                logger.info(f"No results found for part {partNo}")
+                return default_parts
+            
+            # Extract results
+            parts = []
+            
+            # Try to find the results table
             try:
-                location = location_elem.text.strip()
-                logger.info(f"Processing location: {location}")
-
-                # Find all table rows for this location
-                xpath_query = f"//h3[contains(text(), '{location}')]/following-sibling::table[@class='partlist'][1]//tr[position() > 1]"
-                rows = driver.find_elements(By.XPATH, xpath_query)
-
-                # Process each row in this location's table
-                location_parts = []
-
-                for row in rows:
+                # Look for results in multiple possible table formats
+                table_selectors = [
+                    "//table[contains(@class, 'results')]",
+                    "//table[contains(@class, 'grid')]",
+                    "//div[contains(@class, 'results')]//table",
+                    "//div[contains(@class, 'product-list')]"
+                ]
+                
+                # First try to find the table
+                result_table = None
+                for selector in table_selectors:
                     try:
-                        # Extract cells using XPath
-                        cells = row.find_elements(By.XPATH, "./td")
-
-                        # Only process rows with enough cells
-                        if len(cells) >= 4:
-                            availability_text = cells[1].text.strip()
-                            part_number = cells[2].text.strip()
-                            price = cells[3].text.strip()
-
-                            # Convert availability to Yes/No format
-                            availability = "Yes" if "yes" in availability_text.lower() else "No"
-
-                            # Add part to location parts
-                            location_parts.append([part_number, availability, price, location])
-
-                    except Exception as e:
-                        logger.warning(f"Error processing row: {e}")
+                        elements = driver.find_elements(By.XPATH, selector)
+                        if elements:
+                            result_table = elements[0]
+                            break
+                    except:
                         continue
-
-                # Add all parts from this location
-                parts.extend(location_parts)
-                logger.info(f"Found {len(location_parts)} parts at {location}")
-
+                
+                if not result_table:
+                    logger.warning("Could not find results table, trying alternative approach")
+                    # Alternative approach: look for product elements directly
+                    product_elements = driver.find_elements(By.XPATH, "//div[contains(@class, 'product')] | //tr[contains(@class, 'item')]")
+                    
+                    for product in product_elements:
+                        try:
+                            # Extract part number
+                            part_number_element = product.find_element(By.XPATH, ".//span[contains(@class, 'part-number')] | .//span[contains(@class, 'partno')] | .//td[1]")
+                            part_number = part_number_element.text.strip()
+                            
+                            # Extract description/name
+                            description_element = product.find_element(By.XPATH, ".//span[contains(@class, 'description')] | .//span[contains(@class, 'name')] | .//td[2]")
+                            description = description_element.text.strip()
+                            
+                            # Extract price (may not be available)
+                            price = "Price not available"
+                            try:
+                                price_element = product.find_element(By.XPATH, ".//span[contains(@class, 'price')] | .//td[contains(@class, 'price')]")
+                                price = price_element.text.strip()
+                            except:
+                                pass
+                            
+                            # Extract location/availability (may not be available)
+                            location = "Location not available"
+                            try:
+                                location_element = product.find_element(By.XPATH, ".//span[contains(@class, 'location')] | .//span[contains(@class, 'warehouse')]")
+                                location = location_element.text.strip()
+                            except:
+                                pass
+                            
+                            # Only add if the part number matches our search
+                            if partNo.lower() in part_number.lower():
+                                parts.append([part_number, description, price, location])
+                                logger.info(f"Found matching part: {part_number}")
+                        except Exception as e:
+                            logger.warning(f"Error extracting product details: {e}")
+                            continue
+                else:
+                    # Process the table rows
+                    rows = result_table.find_elements(By.TAG_NAME, "tr")
+                    logger.info(f"Found {len(rows)} rows in results table")
+                    
+                    # Skip header row if present
+                    start_index = 1 if len(rows) > 1 else 0
+                    
+                    for i in range(start_index, len(rows)):
+                        try:
+                            cells = rows[i].find_elements(By.TAG_NAME, "td")
+                            if len(cells) >= 3:  # Ensure we have enough cells
+                                part_number = cells[0].text.strip()
+                                description = cells[1].text.strip() if len(cells) > 1 else "No description"
+                                price = cells[2].text.strip() if len(cells) > 2 else "Price not available"
+                                location = cells[3].text.strip() if len(cells) > 3 else "Location not available"
+                                
+                                # Only add if the part number matches our search
+                                if partNo.lower() in part_number.lower():
+                                    parts.append([part_number, description, price, location])
+                                    logger.info(f"Found matching part in table: {part_number}")
+                        except Exception as e:
+                            logger.warning(f"Error processing table row: {e}")
+                            continue
+            
             except Exception as e:
-                logger.warning(f"Error processing location {location}: {e}")
-                continue
-
-        if not parts:
-            logger.info(f"No parts found for {partNo}")
-        else:
-            logger.info(f"Found {len(parts)} parts for {partNo}")
-
-        return parts
-
+                logger.error(f"Error extracting results: {e}")
+                return default_parts
+            
+            # Return parts or default if none found
+            if parts:
+                logger.info(f"Found {len(parts)} parts matching {partNo}")
+                return parts
+            else:
+                logger.warning(f"No parts found for {partNo}")
+                return default_parts
+                
+        except Exception as e:
+            logger.error(f"Error searching for part: {e}")
+            return default_parts
+            
     except Exception as e:
         logger.error(f"Error in MyGrant scraper: {e}")
-        return []
-
+        return default_parts
 
 # For testing purposes
 if __name__ == "__main__":
-    import logging
     from selenium import webdriver
     from selenium.webdriver.chrome.options import Options
 
@@ -222,24 +262,18 @@ if __name__ == "__main__":
 
     # Initialize the driver directly
     driver = webdriver.Chrome(options=chrome_options)
-
     # Set up logging
     logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
     logger = logging.getLogger(__name__)
 
     try:
-        # Test multiple part numbers to demonstrate cookie reuse
-        part_numbers = ["2000", "3000", "4000"]
+        # Test the scraper
+        results = MyGrantScraper("2000", driver, logger)
 
-        for part_no in part_numbers:
-            print(f"\nSearching for part {part_no}...")
-            results = MyGrantScraper(part_no, driver, logger)
-
-            if results:
-                print(f"Found {len(results)} results for {part_no}:")
-                for part in results:
-                    print(f"Part: {part[0]}, Availability: {part[1]}, Price: {part[2]}, Location: {part[3]}")
-            else:
-                print(f"No results found for {part_no}")
+        if results and results[0][0] != "Not Found":
+            for part in results:
+                print(f"Part: {part[0]}, Description: {part[1]}, Price: {part[2]}, Location: {part[3]}")
+        else:
+            print("No results found")
     finally:
         driver.quit()

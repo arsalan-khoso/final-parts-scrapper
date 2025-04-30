@@ -99,7 +99,7 @@ def login(driver, logger):
         logger.error(f"Login error: {e}")
         return False
 
-def process_part_detail(driver, part_number):
+def process_part_detail(driver, part_number, logger):
     """Process a single part detail using direct URL"""
     try:
         logger.info(f"Processing part detail for {part_number}")
@@ -175,7 +175,7 @@ def IGCScraper(partNo, driver, logger):
 
     try:
         # Check login status first before navigation
-        if not login(driver):
+        if not login(driver, logger):  # Pass logger here
             logger.error("Failed to login")
             return None
 
@@ -239,7 +239,7 @@ def IGCScraper(partNo, driver, logger):
         final_results = []
 
         for part_number in part_numbers:
-            result = process_part_detail(driver, part_number)
+            result = process_part_detail(driver, part_number, logger)  # Pass logger here
             if result:
                 final_results.append(result)
 
@@ -270,7 +270,7 @@ if __name__ == "__main__":
 
     try:
         # First login separately to troubleshoot any login issues
-        login_successful = login(driver)
+        login_successful = login(driver, logger)  # Pass logger here
         if not login_successful:
             print("Initial login failed. Check credentials and site availability.")
             driver.quit()
@@ -284,7 +284,7 @@ if __name__ == "__main__":
 
         for part_no in part_numbers:
             print(f"Searching for part {part_no}...")
-            results = IGCScraper(part_no, driver, logger)
+            results = IGCScraper(part_no, driver, logger)  # Pass logger here
             all_results[part_no] = results
 
             # Print results for this part
