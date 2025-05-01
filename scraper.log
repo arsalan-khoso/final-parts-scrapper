@@ -941,3 +941,321 @@ Stacktrace:
 2025-05-02 02:19:01,544 - INFO - 192.168.170.69 - - [02/May/2025 02:19:01] "GET / HTTP/1.1" 200 -
 2025-05-02 02:19:07,425 - INFO - 192.168.170.69 - - [02/May/2025 02:19:07] "GET /part-search/2000 HTTP/1.1" 200 -
 2025-05-02 02:19:07,457 - INFO - Starting new request d5ab11cd-6f53-4b67-bd33-a441731fab5f for part 2000
+2025-05-02 02:19:11,784 - INFO - 192.168.170.69 - - [02/May/2025 02:19:11] "GET /part-search/1000 HTTP/1.1" 200 -
+2025-05-02 02:19:11,840 - INFO - Starting new request 25d431eb-b89b-4b68-9565-b007df63df14 for part 1000
+2025-05-02 02:19:13,177 - INFO - patching driver executable C:\Users\Arsalan-Dev\appdata\roaming\undetected_chromedriver\undetected_chromedriver.exe
+2025-05-02 02:19:16,109 - INFO - Chrome driver set up in 8.55s
+2025-05-02 02:19:16,110 - INFO - [d5ab11cd-6f53-4b67-bd33-a441731fab5f] Searching part in IGC: 2000
+2025-05-02 02:19:16,111 - INFO - Searching part in IGC: 2000
+2025-05-02 02:19:16,111 - INFO - Logging in to Import Glass Corp
+2025-05-02 02:19:16,741 - INFO - Chrome driver set up in 0.63s
+2025-05-02 02:19:16,742 - INFO - [25d431eb-b89b-4b68-9565-b007df63df14] Searching part in IGC: 1000
+2025-05-02 02:19:16,744 - INFO - Searching part in IGC: 1000
+2025-05-02 02:19:16,745 - INFO - Logging in to Import Glass Corp
+2025-05-02 02:19:17,468 - INFO - Chrome driver set up in 0.73s
+2025-05-02 02:19:17,468 - INFO - [d5ab11cd-6f53-4b67-bd33-a441731fab5f] Searching part in PGW: 2000
+2025-05-02 02:19:17,511 - INFO - Not on search page, attempting to login first
+2025-05-02 02:19:17,513 - INFO - Logging in to Buy PGW Auto Glass
+2025-05-02 02:19:18,084 - INFO - Chrome driver set up in 0.62s
+2025-05-02 02:19:18,085 - INFO - [25d431eb-b89b-4b68-9565-b007df63df14] Searching part in PGW: 1000
+2025-05-02 02:19:18,140 - INFO - Not on search page, attempting to login first
+2025-05-02 02:19:18,140 - INFO - Logging in to Buy PGW Auto Glass
+2025-05-02 02:19:18,772 - INFO - Chrome driver set up in 0.69s
+2025-05-02 02:19:18,772 - INFO - [d5ab11cd-6f53-4b67-bd33-a441731fab5f] Searching part in Pilkington: 2000
+2025-05-02 02:19:19,449 - INFO - Chrome driver set up in 0.68s
+2025-05-02 02:19:19,450 - INFO - [25d431eb-b89b-4b68-9565-b007df63df14] Searching part in Pilkington: 1000
+2025-05-02 02:19:20,093 - INFO - Chrome driver set up in 0.64s
+2025-05-02 02:19:20,094 - INFO - [d5ab11cd-6f53-4b67-bd33-a441731fab5f] Searching part in MyGrant: 2000
+2025-05-02 02:19:20,095 - INFO - Checking login status for MyGrant
+2025-05-02 02:19:20,095 - INFO - Performing full login to MyGrant
+2025-05-02 02:19:20,863 - INFO - Chrome driver set up in 0.77s
+2025-05-02 02:19:20,864 - INFO - [25d431eb-b89b-4b68-9565-b007df63df14] Searching part in MyGrant: 1000
+2025-05-02 02:19:20,867 - INFO - Checking login status for MyGrant
+2025-05-02 02:19:20,867 - INFO - Performing full login to MyGrant
+2025-05-02 02:19:30,089 - INFO - Logging form - trying to login
+2025-05-02 02:19:31,579 - ERROR - Login error: Message: 
+Stacktrace:
+	GetHandleVerifier [0x0058C7F3+24435]
+	(No symbol) [0x00512074]
+	(No symbol) [0x003E06E3]
+	(No symbol) [0x00428B39]
+	(No symbol) [0x00428E8B]
+	(No symbol) [0x00471AC2]
+	(No symbol) [0x0044D804]
+	(No symbol) [0x0046F20A]
+	(No symbol) [0x0044D5B6]
+	(No symbol) [0x0041C54F]
+	(No symbol) [0x0041D894]
+	GetHandleVerifier [0x008970A3+3213347]
+	GetHandleVerifier [0x008AB0C9+3295305]
+	GetHandleVerifier [0x008A558C+3271948]
+	GetHandleVerifier [0x00627360+658144]
+	(No symbol) [0x0051B27D]
+	(No symbol) [0x00518208]
+	(No symbol) [0x005183A9]
+	(No symbol) [0x0050AAC0]
+	BaseThreadInitThunk [0x756D5D49+25]
+	RtlInitializeExceptionChain [0x7765CF0B+107]
+	RtlGetAppContainerNamedObjectPath [0x7765CE91+561]
+
+2025-05-02 02:19:31,590 - ERROR - Failed to login to MyGrant
+2025-05-02 02:19:31,591 - INFO - [d5ab11cd-6f53-4b67-bd33-a441731fab5f] MyGrant scraper completed in 12.82s
+2025-05-02 02:19:31,604 - INFO - 192.168.170.69 - - [02/May/2025 02:19:31] "GET /products/2000 HTTP/1.1" 200 -
+2025-05-02 02:19:33,703 - ERROR - Login error: Message: 
+Stacktrace:
+	GetHandleVerifier [0x0058C7F3+24435]
+	(No symbol) [0x00512074]
+	(No symbol) [0x003E06E3]
+	(No symbol) [0x00428B39]
+	(No symbol) [0x00428E8B]
+	(No symbol) [0x00471AC2]
+	(No symbol) [0x0044D804]
+	(No symbol) [0x0046F20A]
+	(No symbol) [0x0044D5B6]
+	(No symbol) [0x0041C54F]
+	(No symbol) [0x0041D894]
+	GetHandleVerifier [0x008970A3+3213347]
+	GetHandleVerifier [0x008AB0C9+3295305]
+	GetHandleVerifier [0x008A558C+3271948]
+	GetHandleVerifier [0x00627360+658144]
+	(No symbol) [0x0051B27D]
+	(No symbol) [0x00518208]
+	(No symbol) [0x005183A9]
+	(No symbol) [0x0050AAC0]
+	BaseThreadInitThunk [0x756D5D49+25]
+	RtlInitializeExceptionChain [0x7765CF0B+107]
+	RtlGetAppContainerNamedObjectPath [0x7765CE91+561]
+
+2025-05-02 02:19:33,703 - ERROR - Failed to login to MyGrant
+2025-05-02 02:19:33,704 - INFO - [25d431eb-b89b-4b68-9565-b007df63df14] MyGrant scraper completed in 14.25s
+2025-05-02 02:19:33,714 - INFO - 192.168.170.69 - - [02/May/2025 02:19:33] "GET /products/1000 HTTP/1.1" 200 -
+2025-05-02 02:19:38,825 - ERROR - Login error: Message: unknown error: net::ERR_CONNECTION_TIMED_OUT
+  (Session info: chrome=135.0.7049.115)
+Stacktrace:
+	GetHandleVerifier [0x0058C7F3+24435]
+	(No symbol) [0x00512074]
+	(No symbol) [0x003E06E3]
+	(No symbol) [0x003DDB6E]
+	(No symbol) [0x003D1458]
+	(No symbol) [0x003D2D60]
+	(No symbol) [0x003D16E7]
+	(No symbol) [0x003D1243]
+	(No symbol) [0x003D0F51]
+	(No symbol) [0x003CEE30]
+	(No symbol) [0x003CF8BB]
+	(No symbol) [0x003E419E]
+	(No symbol) [0x0046FEE7]
+	(No symbol) [0x0044D7BC]
+	(No symbol) [0x0046F20A]
+	(No symbol) [0x0044D5B6]
+	(No symbol) [0x0041C54F]
+	(No symbol) [0x0041D894]
+	GetHandleVerifier [0x008970A3+3213347]
+	GetHandleVerifier [0x008AB0C9+3295305]
+	GetHandleVerifier [0x008A558C+3271948]
+	GetHandleVerifier [0x00627360+658144]
+	(No symbol) [0x0051B27D]
+	(No symbol) [0x00518208]
+	(No symbol) [0x005183A9]
+	(No symbol) [0x0050AAC0]
+	BaseThreadInitThunk [0x756D5D49+25]
+	RtlInitializeExceptionChain [0x7765CF0B+107]
+	RtlGetAppContainerNamedObjectPath [0x7765CE91+561]
+
+2025-05-02 02:19:38,826 - ERROR - Failed to login
+2025-05-02 02:19:38,827 - INFO - [25d431eb-b89b-4b68-9565-b007df63df14] IGC scraper completed in 26.99s
+2025-05-02 02:19:41,109 - ERROR - Login error: Message: unknown error: net::ERR_CONNECTION_TIMED_OUT
+  (Session info: chrome=135.0.7049.115)
+Stacktrace:
+	GetHandleVerifier [0x0058C7F3+24435]
+	(No symbol) [0x00512074]
+	(No symbol) [0x003E06E3]
+	(No symbol) [0x003DDB6E]
+	(No symbol) [0x003D1458]
+	(No symbol) [0x003D2D60]
+	(No symbol) [0x003D16E7]
+	(No symbol) [0x003D1243]
+	(No symbol) [0x003D0F51]
+	(No symbol) [0x003CEE30]
+	(No symbol) [0x003CF8BB]
+	(No symbol) [0x003E419E]
+	(No symbol) [0x0046FEE7]
+	(No symbol) [0x0044D7BC]
+	(No symbol) [0x0046F20A]
+	(No symbol) [0x0044D5B6]
+	(No symbol) [0x0041C54F]
+	(No symbol) [0x0041D894]
+	GetHandleVerifier [0x008970A3+3213347]
+	GetHandleVerifier [0x008AB0C9+3295305]
+	GetHandleVerifier [0x008A558C+3271948]
+	GetHandleVerifier [0x00627360+658144]
+	(No symbol) [0x0051B27D]
+	(No symbol) [0x00518208]
+	(No symbol) [0x005183A9]
+	(No symbol) [0x0050AAC0]
+	BaseThreadInitThunk [0x756D5D49+25]
+	RtlInitializeExceptionChain [0x7765CF0B+107]
+	RtlGetAppContainerNamedObjectPath [0x7765CE91+561]
+
+2025-05-02 02:19:41,119 - ERROR - Error in searchPart: Message: unknown error: net::ERR_CONNECTION_TIMED_OUT
+  (Session info: chrome=135.0.7049.115)
+Stacktrace:
+	GetHandleVerifier [0x0058C7F3+24435]
+	(No symbol) [0x00512074]
+	(No symbol) [0x003E06E3]
+	(No symbol) [0x003DDB6E]
+	(No symbol) [0x003D1458]
+	(No symbol) [0x003D2D60]
+	(No symbol) [0x003D16E7]
+	(No symbol) [0x003D1243]
+	(No symbol) [0x003D0F51]
+	(No symbol) [0x003CEE30]
+	(No symbol) [0x003CF8BB]
+	(No symbol) [0x003E419E]
+	(No symbol) [0x0046FEE7]
+	(No symbol) [0x0044D7BC]
+	(No symbol) [0x0046F20A]
+	(No symbol) [0x0044D5B6]
+	(No symbol) [0x0041C54F]
+	(No symbol) [0x0041D894]
+	GetHandleVerifier [0x008970A3+3213347]
+	GetHandleVerifier [0x008AB0C9+3295305]
+	GetHandleVerifier [0x008A558C+3271948]
+	GetHandleVerifier [0x00627360+658144]
+	(No symbol) [0x0051B27D]
+	(No symbol) [0x00518208]
+	(No symbol) [0x005183A9]
+	(No symbol) [0x0050AAC0]
+	BaseThreadInitThunk [0x756D5D49+25]
+	RtlInitializeExceptionChain [0x7765CF0B+107]
+	RtlGetAppContainerNamedObjectPath [0x7765CE91+561]
+
+2025-05-02 02:19:41,123 - INFO - [d5ab11cd-6f53-4b67-bd33-a441731fab5f] PGW scraper completed in 25.01s
+2025-05-02 02:19:42,341 - ERROR - Login error: Message: unknown error: net::ERR_CONNECTION_TIMED_OUT
+  (Session info: chrome=135.0.7049.115)
+Stacktrace:
+	GetHandleVerifier [0x0058C7F3+24435]
+	(No symbol) [0x00512074]
+	(No symbol) [0x003E06E3]
+	(No symbol) [0x003DDB6E]
+	(No symbol) [0x003D1458]
+	(No symbol) [0x003D2D60]
+	(No symbol) [0x003D16E7]
+	(No symbol) [0x003D1243]
+	(No symbol) [0x003D0F51]
+	(No symbol) [0x003CEE30]
+	(No symbol) [0x003CF8BB]
+	(No symbol) [0x003E419E]
+	(No symbol) [0x0046FEE7]
+	(No symbol) [0x0044D7BC]
+	(No symbol) [0x0046F20A]
+	(No symbol) [0x0044D5B6]
+	(No symbol) [0x0041C54F]
+	(No symbol) [0x0041D894]
+	GetHandleVerifier [0x008970A3+3213347]
+	GetHandleVerifier [0x008AB0C9+3295305]
+	GetHandleVerifier [0x008A558C+3271948]
+	GetHandleVerifier [0x00627360+658144]
+	(No symbol) [0x0051B27D]
+	(No symbol) [0x00518208]
+	(No symbol) [0x005183A9]
+	(No symbol) [0x0050AAC0]
+	BaseThreadInitThunk [0x756D5D49+25]
+	RtlInitializeExceptionChain [0x7765CF0B+107]
+	RtlGetAppContainerNamedObjectPath [0x7765CE91+561]
+
+2025-05-02 02:19:42,342 - ERROR - Error in searchPart: Message: unknown error: net::ERR_CONNECTION_TIMED_OUT
+  (Session info: chrome=135.0.7049.115)
+Stacktrace:
+	GetHandleVerifier [0x0058C7F3+24435]
+	(No symbol) [0x00512074]
+	(No symbol) [0x003E06E3]
+	(No symbol) [0x003DDB6E]
+	(No symbol) [0x003D1458]
+	(No symbol) [0x003D2D60]
+	(No symbol) [0x003D16E7]
+	(No symbol) [0x003D1243]
+	(No symbol) [0x003D0F51]
+	(No symbol) [0x003CEE30]
+	(No symbol) [0x003CF8BB]
+	(No symbol) [0x003E419E]
+	(No symbol) [0x0046FEE7]
+	(No symbol) [0x0044D7BC]
+	(No symbol) [0x0046F20A]
+	(No symbol) [0x0044D5B6]
+	(No symbol) [0x0041C54F]
+	(No symbol) [0x0041D894]
+	GetHandleVerifier [0x008970A3+3213347]
+	GetHandleVerifier [0x008AB0C9+3295305]
+	GetHandleVerifier [0x008A558C+3271948]
+	GetHandleVerifier [0x00627360+658144]
+	(No symbol) [0x0051B27D]
+	(No symbol) [0x00518208]
+	(No symbol) [0x005183A9]
+	(No symbol) [0x0050AAC0]
+	BaseThreadInitThunk [0x756D5D49+25]
+	RtlInitializeExceptionChain [0x7765CF0B+107]
+	RtlGetAppContainerNamedObjectPath [0x7765CE91+561]
+
+2025-05-02 02:19:42,343 - INFO - [25d431eb-b89b-4b68-9565-b007df63df14] PGW scraper completed in 25.60s
+2025-05-02 02:19:43,613 - INFO - username inserted
+2025-05-02 02:19:43,785 - INFO - password inserted
+2025-05-02 02:19:44,021 - INFO - checkbox clicked
+2025-05-02 02:19:44,099 - INFO - Login successful - saved 3 cookies
+2025-05-02 02:19:47,188 - INFO - crendential submitted
+2025-05-02 02:19:47,720 - INFO - Search submitted, waiting for results...
+2025-05-02 02:19:48,812 - ERROR - Error in Pilkington scraper: Message: timeout: Timed out receiving message from renderer: 5.016
+  (Session info: chrome=135.0.7049.115)
+Stacktrace:
+	GetHandleVerifier [0x0058C7F3+24435]
+	(No symbol) [0x00512074]
+	(No symbol) [0x003E06E3]
+	(No symbol) [0x003D121B]
+	(No symbol) [0x003D0F51]
+	(No symbol) [0x003CEE30]
+	(No symbol) [0x003CF9DD]
+	(No symbol) [0x003DBFE9]
+	(No symbol) [0x003ED975]
+	(No symbol) [0x003F3236]
+	(No symbol) [0x003CFFED]
+	(No symbol) [0x003ED718]
+	(No symbol) [0x0046F4F8]
+	(No symbol) [0x0044D5B6]
+	(No symbol) [0x0041C54F]
+	(No symbol) [0x0041D894]
+	GetHandleVerifier [0x008970A3+3213347]
+	GetHandleVerifier [0x008AB0C9+3295305]
+	GetHandleVerifier [0x008A558C+3271948]
+	GetHandleVerifier [0x00627360+658144]
+	(No symbol) [0x0051B27D]
+	(No symbol) [0x00518208]
+	(No symbol) [0x005183A9]
+	(No symbol) [0x0050AAC0]
+	BaseThreadInitThunk [0x756D5D49+25]
+	RtlInitializeExceptionChain [0x7765CF0B+107]
+	RtlGetAppContainerNamedObjectPath [0x7765CE91+561]
+
+2025-05-02 02:19:48,814 - INFO - [d5ab11cd-6f53-4b67-bd33-a441731fab5f] Pilkington scraper completed in 31.34s
+2025-05-02 02:19:48,900 - INFO - successfully login
+2025-05-02 02:19:48,924 - INFO - Closed popup window
+2025-05-02 02:19:48,925 - INFO - Searching part in Pilkington: 1000
+2025-05-02 02:19:49,383 - INFO - Found 4 matching part numbers
+2025-05-02 02:19:49,383 - INFO - Processing part detail for DW02000
+2025-05-02 02:19:49,383 - INFO - Using direct URL: https://importglasscorp.com/glass/DW02000/
+2025-05-02 02:19:52,937 - INFO - Closed popup window
+2025-05-02 02:19:58,100 - INFO - Location: Miami, FL.
+2025-05-02 02:19:59,111 - INFO - Found 7 parts for 1000
+2025-05-02 02:19:59,112 - INFO - [25d431eb-b89b-4b68-9565-b007df63df14] Pilkington scraper completed in 41.02s
+2025-05-02 02:19:59,114 - INFO - [25d431eb-b89b-4b68-9565-b007df63df14] All scrapers completed in 47.27s
+2025-05-02 02:19:59,116 - INFO - Request 25d431eb-b89b-4b68-9565-b007df63df14 completed and resources cleaned up
+2025-05-02 02:20:01,477 - INFO - Processing part detail for FW02000
+2025-05-02 02:20:01,478 - INFO - Using direct URL: https://importglasscorp.com/glass/FW02000/
+2025-05-02 02:20:18,764 - INFO - Found available part: FW02000, $237.97, Opa-Locka
+2025-05-02 02:20:18,765 - INFO - Processing part detail for FD02000
+2025-05-02 02:20:18,765 - INFO - Using direct URL: https://importglasscorp.com/glass/FD02000/
+2025-05-02 02:20:22,106 - INFO - Processing part detail for WKTF2000
+2025-05-02 02:20:22,107 - INFO - Using direct URL: https://importglasscorp.com/glass/WKTF2000/
+2025-05-02 02:20:24,983 - INFO - Final results count: 1
+2025-05-02 02:20:24,985 - INFO - [d5ab11cd-6f53-4b67-bd33-a441731fab5f] IGC scraper completed in 77.43s
+2025-05-02 02:20:24,987 - INFO - [d5ab11cd-6f53-4b67-bd33-a441731fab5f] All scrapers completed in 77.53s
+2025-05-02 02:20:24,987 - INFO - Request d5ab11cd-6f53-4b67-bd33-a441731fab5f completed and resources cleaned up
