@@ -11,6 +11,9 @@ import tempfile
 import shutil
 from dotenv import load_dotenv
 import signal
+import uuid
+import threading
+from threading import Lock
 
 # Set up logging
 logging.basicConfig(
@@ -33,26 +36,49 @@ SCRIPT_TIMEOUT = 17  # Reduced from 30
 
 # Driver pool for reuse
 driver_pool = []
-driver_pool_lock = asyncio.Lock()
+driver_pool_lock = threading.Lock()  # Changed to threading.Lock instead of asyncio.Lock
 
-async def get_driver_from_pool():
+# Track active drivers by request ID
+request_drivers = {}
+request_lock = Lock()
+
+async def get_driver_from_pool(request_id):
     """Get a driver from the pool or create a new one if needed"""
-    async with driver_pool_lock:
+    global driver_pool
+    
+    # Use threading lock instead of asyncio lock
+    with driver_pool_lock:
         if driver_pool:
-            return driver_pool.pop()
+            driver = driver_pool.pop()
         else:
-            return setup_chrome_driver()
+            driver = setup_chrome_driver()
+    
+    # Track this driver with the request ID
+    with request_lock:
+        if request_id not in request_drivers:
+            request_drivers[request_id] = []
+        request_drivers[request_id].append(driver)
+    
+    return driver
 
-async def return_driver_to_pool(driver):
+async def return_driver_to_pool(driver, request_id):
     """Return a driver to the pool if it's still healthy"""
+    global driver_pool
+    
+    with request_lock:
+        # Remove from request tracking
+        if request_id in request_drivers and driver in request_drivers[request_id]:
+            request_drivers[request_id].remove(driver)
+    
     if len(driver_pool) < SHARED_DRIVER_POOL_SIZE:
         try:
             # Quick test to see if driver is responsive
             driver.current_url  # Will throw if driver is unhealthy
-            async with driver_pool_lock:
+            with driver_pool_lock:  # Use threading lock
                 driver_pool.append(driver)
             return True
-        except:
+        except Exception as e:
+            logger.debug(f"Driver unhealthy, disposing: {e}")
             try:
                 driver.quit()
             except:
@@ -128,7 +154,7 @@ def setup_chrome_driver():
         logger.error(f"Driver setup failed after {elapsed:.2f}s: {e}")
         raise
 
-async def scrape_with_driver(part_no, scraper_class, keys, name, timeout=MAX_SCRAPER_TIME):
+async def scrape_with_driver(part_no, scraper_class, keys, name, request_id, timeout=MAX_SCRAPER_TIME):
     """Run an individual scraper with its own driver and timeout"""
     driver = None
     start_time = time.time()
@@ -136,13 +162,13 @@ async def scrape_with_driver(part_no, scraper_class, keys, name, timeout=MAX_SCR
     # Create a task for the actual scraper execution
     try:
         # Get a driver from the pool or create a new one
-        driver = await get_driver_from_pool()
+        driver = await get_driver_from_pool(request_id)
         
         # Add wait capability for the scraper to use
         wait = WebDriverWait(driver, 10)
         
         # Log the search attempt
-        logger.info(f"Searching part in {name}: {part_no}")
+        logger.info(f"[{request_id}] Searching part in {name}: {part_no}")
         
         # Call the scraper function - wrap with timeout
         try:
@@ -165,40 +191,40 @@ async def scrape_with_driver(part_no, scraper_class, keys, name, timeout=MAX_SCR
                 result = {name: []}
                 
             elapsed = time.time() - start_time
-            logger.info(f"{name} scraper completed in {elapsed:.2f}s")
+            logger.info(f"[{request_id}] {name} scraper completed in {elapsed:.2f}s")
             return result
             
         except asyncio.TimeoutError:
             elapsed = time.time() - start_time
-            logger.warning(f"{name} scraper timed out after {elapsed:.2f}s")
+            logger.warning(f"[{request_id}] {name} scraper timed out after {elapsed:.2f}s")
             return {name: []}
             
         except Exception as e:
             elapsed = time.time() - start_time
-            logger.error(f"{name} scraper failed after {elapsed:.2f}s: {e}")
+            logger.error(f"[{request_id}] {name} scraper failed after {elapsed:.2f}s: {e}")
             return {name: []}
 
     except Exception as e:
         elapsed = time.time() - start_time
-        logger.error(f"Error in {name} scraper setup after {elapsed:.2f}s: {e}")
+        logger.error(f"[{request_id}] Error in {name} scraper setup after {elapsed:.2f}s: {e}")
         return {name: []}
     finally:
         # Return the driver to the pool if possible
         if driver:
             try:
-                driver_reused = await return_driver_to_pool(driver)
+                driver_reused = await return_driver_to_pool(driver, request_id)
                 if driver_reused:
-                    logger.debug(f"Returned driver to pool for {name}")
+                    logger.debug(f"[{request_id}] Returned driver to pool for {name}")
                 else:
-                    logger.debug(f"Driver disposed for {name}")
+                    logger.debug(f"[{request_id}] Driver disposed for {name}")
             except Exception as e:
-                logger.error(f"Error returning driver to pool for {name}: {e}")
+                logger.error(f"[{request_id}] Error returning driver to pool for {name}: {e}")
                 try:
                     driver.quit()
                 except:
                     pass
 
-async def run_scrapers_concurrently(part_no):
+async def run_scrapers_concurrently(part_no, request_id):
     """Run all scrapers concurrently and yield results as soon as they complete"""
     # Import scrapers here to avoid circular imports
     try:
@@ -223,7 +249,7 @@ async def run_scrapers_concurrently(part_no):
 
         # Create tasks for each scraper with individual timeouts
         tasks = {
-            asyncio.create_task(scrape_with_driver(part_no, scraper_class, keys, name, timeout)): name
+            asyncio.create_task(scrape_with_driver(part_no, scraper_class, keys, name, request_id, timeout)): name
             for name, scraper_class, keys, timeout in scrapers
         }
         
@@ -245,40 +271,46 @@ async def run_scrapers_concurrently(part_no):
                     yield json.dumps(result)
                 except Exception as e:
                     name = tasks[done_task]
-                    logger.error(f"Error processing {name} result: {e}")
+                    logger.error(f"[{request_id}] Error processing {name} result: {e}")
                     # Return empty result on error
                     yield json.dumps({tasks[done_task]: []})
         
         # Log total execution time
         elapsed = time.time() - start_time
-        logger.info(f"All scrapers completed in {elapsed:.2f}s")
+        logger.info(f"[{request_id}] All scrapers completed in {elapsed:.2f}s")
 
     except Exception as e:
-        logger.error(f"Error in run_scrapers_concurrently: {e}")
+        logger.error(f"[{request_id}] Error in run_scrapers_concurrently: {e}")
         yield json.dumps({"error": str(e)})
     finally:
         # Clean up any remaining drivers in the pool
-        async with driver_pool_lock:
-            for driver in driver_pool:
-                try:
-                    driver.quit()
-                except:
-                    pass
-            driver_pool.clear()
+        with request_lock:
+            if request_id in request_drivers:
+                for driver in request_drivers[request_id]:
+                    try:
+                        driver.quit()
+                    except:
+                        pass
+                del request_drivers[request_id]
 
 def runScraper(part_no):
     """Flask-compatible generator function that yields results as they become available"""
+    # Generate a unique ID for this request
+    request_id = str(uuid.uuid4())
+    logger.info(f"Starting new request {request_id} for part {part_no}")
+    
     # Set up a new event loop for this request
     try:
+        # Create a new event loop for each request to avoid conflicts
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
 
-        # Create async generator - immediately yield results as they arrive
+        # Create async generator with request_id
         async def async_generator():
-            async for result in run_scrapers_concurrently(part_no):
+            async for result in run_scrapers_concurrently(part_no, request_id):
                 yield result
 
-        # Run the async generator in the event loop - yield each result immediately
+        # Run the async generator in the event loop
         gen = async_generator()
         try:
             while True:
@@ -290,14 +322,23 @@ def runScraper(part_no):
                     # Generator is done
                     break
                 except Exception as e:
-                    logger.error(f"Error yielding result: {e}")
+                    logger.error(f"[{request_id}] Error yielding result: {e}")
                     yield json.dumps({"error": str(e)})
         finally:
             # Clean up
+            with request_lock:
+                if request_id in request_drivers:
+                    for driver in request_drivers[request_id]:
+                        try:
+                            driver.quit()
+                        except:
+                            pass
+                    del request_drivers[request_id]
             loop.close()
+            logger.info(f"Request {request_id} completed and resources cleaned up")
 
     except Exception as e:
-        logger.error(f"Error in runScraper: {e}")
+        logger.error(f"[{request_id}] Error in runScraper: {e}")
         yield json.dumps({"error": str(e)})
 
 

@@ -11,12 +11,15 @@ from flask_cors import CORS
 from functools import wraps
 import requests
 import os
+import uuid
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'nexbitpythontasks'  # It's better to use an environment variable for this
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)  # Set session timeout to 30 minutes
+# Add configuration for concurrent requests
+app.config['PROPAGATE_EXCEPTIONS'] = True
 CORS(app)
 
 db = SQLAlchemy(app)
@@ -190,16 +193,21 @@ def vinSearch(vin):
         except json.JSONDecodeError:
             json_data = None
     else:
-        josn_data = None
+        json_data = None
     return render_template('vin-search.html', data=json_data)
 
 @app.route('/products/<partNumber>', methods=['GET'])
 @login_required
 def products(partNumber):
+    @stream_with_context
     def generate():
         for data in runScraper(partNumber):
             yield data + '\n'
-    return Response(stream_with_context(generate()), mimetype='application/json')
+    
+    # Create response with headers to disable buffering
+    response = Response(generate(), mimetype='application/json')
+    response.headers['X-Accel-Buffering'] = 'no'  # Disable Nginx buffering if using Nginx
+    return response
 
 @app.route('/add_user', methods=['GET', 'POST'])
 @login_required
@@ -238,4 +246,5 @@ def init_db():
 
 if __name__ == '__main__':
     init_db()
-    app.run(host='0.0.0.0', port=2211, debug=True)
+    # Use threaded=True to handle concurrent requests
+    app.run(host='0.0.0.0', port=2211, debug=True, threaded=True)

@@ -891,3 +891,53 @@ Stacktrace:
 2025-05-01 03:14:32,562 - INFO - Using direct URL: https://importglasscorp.com/glass/FD02000/
 2025-05-01 03:14:33,140 - ERROR - Error in Pilkington scraper: ('Connection aborted.', ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None))
 2025-05-01 03:14:33,143 - INFO - Pilkington scraper completed in 40.34s
+2025-05-02 02:16:45,703 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:2211
+ * Running on http://192.168.170.69:2211
+2025-05-02 02:16:45,705 - INFO - [33mPress CTRL+C to quit[0m
+2025-05-02 02:16:45,709 - INFO -  * Restarting with stat
+2025-05-02 02:16:47,048 - WARNING -  * Debugger is active!
+2025-05-02 02:16:47,053 - INFO -  * Debugger PIN: 621-090-782
+2025-05-02 02:16:49,194 - INFO - 192.168.170.69 - - [02/May/2025 02:16:49] "[32mGET / HTTP/1.1[0m" 302 -
+2025-05-02 02:16:49,223 - INFO - 192.168.170.69 - - [02/May/2025 02:16:49] "GET /login?next=/ HTTP/1.1" 200 -
+2025-05-02 02:16:49,310 - INFO - 192.168.170.69 - - [02/May/2025 02:16:49] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-05-02 02:16:51,784 - INFO - 192.168.170.69 - - [02/May/2025 02:16:51] "[32mPOST /login?next=/ HTTP/1.1[0m" 302 -
+2025-05-02 02:16:51,820 - INFO - 192.168.170.69 - - [02/May/2025 02:16:51] "GET / HTTP/1.1" 200 -
+2025-05-02 02:16:55,880 - INFO - 192.168.170.69 - - [02/May/2025 02:16:55] "GET /part-search/2000 HTTP/1.1" 200 -
+2025-05-02 02:16:55,902 - INFO - Starting new request f5e47738-de2f-478d-864a-90e7ff800371 for part 2000
+2025-05-02 02:17:01,460 - INFO - 192.168.170.69 - - [02/May/2025 02:17:01] "GET /part-search/1000 HTTP/1.1" 200 -
+2025-05-02 02:17:01,516 - INFO - Starting new request e94cce6a-eaca-436d-8757-c043519659c7 for part 1000
+2025-05-02 02:17:01,833 - INFO - patching driver executable C:\Users\Arsalan-Dev\appdata\roaming\undetected_chromedriver\undetected_chromedriver.exe
+2025-05-02 02:17:06,270 - INFO - Chrome driver set up in 10.10s
+2025-05-02 02:17:06,271 - INFO - [f5e47738-de2f-478d-864a-90e7ff800371] Searching part in IGC: 2000
+2025-05-02 02:17:06,272 - INFO - Searching part in IGC: 2000
+2025-05-02 02:17:06,273 - ERROR - [f5e47738-de2f-478d-864a-90e7ff800371] Error in PGW scraper setup after 0.00s: <asyncio.locks.Lock object at 0x00000165C89C1FD0 [unlocked, waiters:4]> is bound to a different event loop
+2025-05-02 02:17:06,273 - INFO - Logging in to Import Glass Corp
+2025-05-02 02:17:06,274 - ERROR - [f5e47738-de2f-478d-864a-90e7ff800371] Error in Pilkington scraper setup after 0.00s: <asyncio.locks.Lock object at 0x00000165C89C1FD0 [unlocked, waiters:4]> is bound to a different event loop
+2025-05-02 02:17:06,275 - ERROR - [f5e47738-de2f-478d-864a-90e7ff800371] Error in MyGrant scraper setup after 0.00s: <asyncio.locks.Lock object at 0x00000165C89C1FD0 [unlocked, waiters:4]> is bound to a different event loop
+2025-05-02 02:17:06,276 - INFO - 192.168.170.69 - - [02/May/2025 02:17:06] "GET /products/2000 HTTP/1.1" 200 -
+2025-05-02 02:17:20,832 - INFO - Login successful - saved 3 cookies
+2025-05-02 02:17:25,189 - INFO - Search submitted, waiting for results...
+2025-05-02 02:17:27,861 - INFO - Found 4 matching part numbers
+2025-05-02 02:17:27,862 - INFO - Processing part detail for DW02000
+2025-05-02 02:17:27,862 - INFO - Using direct URL: https://importglasscorp.com/glass/DW02000/
+2025-05-02 02:17:34,223 - INFO - Processing part detail for FW02000
+2025-05-02 02:17:34,224 - INFO - Using direct URL: https://importglasscorp.com/glass/FW02000/
+2025-05-02 02:17:42,428 - INFO - Found available part: FW02000, $237.97, Opa-Locka
+2025-05-02 02:17:42,428 - INFO - Processing part detail for FD02000
+2025-05-02 02:17:42,429 - INFO - Using direct URL: https://importglasscorp.com/glass/FD02000/
+2025-05-02 02:17:44,365 - INFO - Processing part detail for WKTF2000
+2025-05-02 02:17:44,365 - INFO - Using direct URL: https://importglasscorp.com/glass/WKTF2000/
+2025-05-02 02:17:45,931 - INFO - Final results count: 1
+2025-05-02 02:17:45,932 - INFO - [f5e47738-de2f-478d-864a-90e7ff800371] IGC scraper completed in 49.77s
+2025-05-02 02:17:45,946 - INFO - [f5e47738-de2f-478d-864a-90e7ff800371] All scrapers completed in 50.04s
+2025-05-02 02:17:45,947 - INFO - Request f5e47738-de2f-478d-864a-90e7ff800371 completed and resources cleaned up
+2025-05-02 02:18:20,494 - INFO - 192.168.170.69 - - [02/May/2025 02:18:20] "GET / HTTP/1.1" 200 -
+2025-05-02 02:18:55,273 - INFO -  * Detected change in 'c:\\Users\\Arsalan-Dev\\Desktop\\newdevelop\\Streamlit-PartsScraper\\partScraper.py', reloading
+2025-05-02 02:18:59,526 - INFO -  * Restarting with stat
+2025-05-02 02:19:01,475 - WARNING -  * Debugger is active!
+2025-05-02 02:19:01,480 - INFO -  * Debugger PIN: 621-090-782
+2025-05-02 02:19:01,544 - INFO - 192.168.170.69 - - [02/May/2025 02:19:01] "GET / HTTP/1.1" 200 -
+2025-05-02 02:19:07,425 - INFO - 192.168.170.69 - - [02/May/2025 02:19:07] "GET /part-search/2000 HTTP/1.1" 200 -
+2025-05-02 02:19:07,457 - INFO - Starting new request d5ab11cd-6f53-4b67-bd33-a441731fab5f for part 2000
