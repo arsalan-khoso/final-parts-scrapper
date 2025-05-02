@@ -25,11 +25,11 @@ logger = logging.getLogger(__name__)
 
 # Constants for optimization
 CHROME_VERSION = 134  # Update this to your Chrome version
-MAX_SCRAPER_TIME = 200  # Maximum time a scraper can run (seconds)
+MAX_SCRAPER_TIME = 300  # Maximum time a scraper can run (seconds)
 SHARED_DRIVER_POOL_SIZE = 3  # Number of drivers to keep in pool
 IMPLICIT_WAIT = 5  # Reduced from 10
 PAGE_LOAD_TIMEOUT = 30  # Reduced from 60
-SCRIPT_TIMEOUT = 15  # Reduced from 30
+SCRIPT_TIMEOUT = 17  # Reduced from 30
 
 # Driver pool for reuse
 driver_pool = []
@@ -215,9 +215,9 @@ async def run_scrapers_concurrently(part_no):
 
         # Define scrapers with their keys and individual timeouts
         scrapers = [
-            ('IGC', IGCScraper, ["Part Number", "Availability", "Price", "Location"], 60),
-            ('PGW', PWGScraper, ["Part Number", "Availability", "Price", "Location", "Description"], 120),
-            ('Pilkington', PilkingtonScraper, ["Part Number", "Part Name", "Price", "Location"], 60),
+            ('IGC', IGCScraper, ["Part Number", "Availability", "Price", "Location"], 150),
+            ('PGW', PWGScraper, ["Part Number", "Availability", "Price", "Location", "Description"], 150),
+            ('Pilkington', PilkingtonScraper, ["Part Number", "Part Name", "Price", "Location"], 150),
             ('MyGrant', MyGrantScraper, ["Part Number", "Availability", "Price", "Location"], 150),
         ]
 
