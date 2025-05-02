@@ -11,15 +11,12 @@ from flask_cors import CORS
 from functools import wraps
 import requests
 import os
-import uuid
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'nexbitpythontasks'  # It's better to use an environment variable for this
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)  # Set session timeout to 30 minutes
-# Add configuration for concurrent requests
-app.config['PROPAGATE_EXCEPTIONS'] = True
 CORS(app)
 
 db = SQLAlchemy(app)
@@ -193,22 +190,69 @@ def vinSearch(vin):
         except json.JSONDecodeError:
             json_data = None
     else:
-        json_data = None
+        josn_data = None
     return render_template('vin-search.html', data=json_data)
+
+import time 
 
 @app.route('/products/<partNumber>', methods=['GET'])
 @login_required
 def products(partNumber):
-    @stream_with_context
+    """Stream search results to client with better error handling and timeouts"""
     def generate():
-        for data in runScraper(partNumber):
-            yield data + '\n'
-    
-    # Create response with headers to disable buffering
-    response = Response(generate(), mimetype='application/json')
-    response.headers['X-Accel-Buffering'] = 'no'  # Disable Nginx buffering if using Nginx
-    return response
-
+        # Start time tracking
+        start_time = time.time()
+        max_time = 180  # Max 3 minutes for the entire operation
+        
+        # Send initial message
+        yield json.dumps({"status": "searching", "message": f"Searching for part: {partNumber}"}) + '\n'
+        
+        # Counter to track received results
+        results_count = 0
+        
+        # Create a generator with timeout
+        gen = runScraper(partNumber)
+        
+        # Process results with timeout protection
+        while True:
+            try:
+                # Check if we've exceeded the max time
+                if time.time() - start_time > max_time:
+                    app.logger.warning(f"Search timeout after {max_time} seconds")
+                    yield json.dumps({"status": "timeout", "message": f"Search timed out after {max_time} seconds"}) + '\n'
+                    break
+                    
+                # Get next result with timeout
+                data = next(gen)
+                
+                # Process the result
+                elapsed = time.time() - start_time
+                results_count += 1
+                
+                # Add timing information
+                source = list(json.loads(data).keys())[0] if data else "Unknown"
+                app.logger.info(f"[{elapsed:.2f}s] Received result from {source}")
+                
+                # Send the result immediately
+                yield data + '\n'
+                
+            except StopIteration:
+                # All results received
+                break
+                
+            except Exception as e:
+                app.logger.error(f"Error processing results: {e}")
+                yield json.dumps({"status": "error", "message": f"Error: {str(e)}"}) + '\n'
+                break
+        
+        # Log completion
+        total_time = time.time() - start_time
+        app.logger.info(f"Completed search for {partNumber}: {results_count} sources in {total_time:.2f}s")
+        
+        # Send completion message
+        yield json.dumps({"status": "complete", "message": f"Search complete in {total_time:.2f}s"}) + '\n'
+        
+    return Response(stream_with_context(generate()), mimetype='application/json')
 @app.route('/add_user', methods=['GET', 'POST'])
 @login_required
 @admin_required
@@ -246,5 +290,4 @@ def init_db():
 
 if __name__ == '__main__':
     init_db()
-    # Use threaded=True to handle concurrent requests
-    app.run(host='0.0.0.0', port=2211, debug=True, threaded=True)
+    app.run(host='0.0.0.0', debug=True)
