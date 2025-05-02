@@ -1705,3 +1705,5 @@ Stacktrace:
 2025-05-02 23:28:36,347 - INFO -  * Debugger PIN: 621-090-782
 2025-05-02 23:29:12,023 - INFO -  * Detected change in 'c:\\Users\\Arsalan-Dev\\Desktop\\newdevelop\\Streamlit-PartsScraper\\app.py', reloading
 2025-05-02 23:29:12,151 - INFO -  * Restarting with stat
+2025-05-02 23:29:13,325 - WARNING -  * Debugger is active!
+2025-05-02 23:29:13,326 - INFO -  * Debugger PIN: 621-090-782
